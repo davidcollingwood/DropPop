@@ -1,6 +1,6 @@
 module.exports = {
     options: {
-        path: 'www'
+        path: '.'
     },
     
     add_platforms: {

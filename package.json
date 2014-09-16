@@ -22,7 +22,7 @@
 
     "bower": "latest",
 
-    "jade-angularjs-brunch": "~0.0.5"
+    "jade-angularjs-brunch": "~0.0.5",
     
     "grunt": "latest",
     "load-grunt-config": "*",

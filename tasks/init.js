@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
 
-    grunt.registerTask('init', ['grunt-cordovacli:add_platforms', 'grunt-cordovacli:add_plugins']);
+    grunt.registerTask('init', ['cordovacli:add_platforms', 'cordovacli:add_plugins']);
 
 };

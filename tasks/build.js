@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
 
-    grunt.registerTask('build', ['grunt-cordovacli:build']);
+    grunt.registerTask('build', ['cordovacli:build']);
 
 };
