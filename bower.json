@@ -1,0 +1,15 @@
+{
+  "name": "DropPop",
+  "version": "0.1.0",
+  "main": "_public/js/app.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "ionic": "1.0.0-beta.12",
+    "angular-local-storage": "latest",
+    "momentjs": "latest"
+  }
+}

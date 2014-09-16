@@ -1,3 +1,10 @@
+angular.module('dropPop', [
+    'ionic'
+]);
+
+
+
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -64,7 +71,7 @@ var app = {
     onDeviceSupportedCallback: function() {
         app.isDeviceSupported = true;
         
-        app.loadARchitectWorld('www/world/index.html');
+        app.loadARchitectWorld('www/world.html');
     },
 
     // A callback which gets called if the device is not able to start ARchitect Worlds
