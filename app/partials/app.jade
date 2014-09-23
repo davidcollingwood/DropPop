@@ -2,13 +2,23 @@ ion-side-menus
     ion-side-menu-content(ng-controller='AppCtrl')
         ion-nav-bar.bar-positive(animation='nav-title-slide-ios7')
             ion-nav-back-button.button-icon.ion-ios7-arrow-left
-        ion-nav-buttons(side='left')
-            button.button.button-icon.button-clear.ion-navicon(ng-click='toggleMenu()')
         ion-nav-view(name='app', animation='slide-left-right-ios7')
     
     ion-side-menu(side='left')
         ion-content.has-header
             .list
-                .item.item-icon-left(ui-sref='app.home', menu-close)
-                    i.icon.ion-home
-                    | Home
+                .item.item-icon-left(ui-sref='app.explore', menu-close, nav-clear)
+                    i.icon.ion-map
+                    | Explore
+                .item.item-icon-left(ui-sref='app.profile', menu-close, nav-clear)
+                    i.icon.ion-ios7-person
+                    | Profile
+                .item.item-icon-left(ui-sref='app.friends', menu-close, nav-clear)
+                    i.icon.ion-ios7-people
+                    | Friends
+                .item.item-icon-left(ui-sref='app.favourites', menu-close, nav-clear)
+                    i.icon.ion-star
+                    | Favourites
+                .item.item-icon-left(ui-sref='app.settings', menu-close, nav-clear)
+                    i.icon.ion-gear-a
+                    | Settings

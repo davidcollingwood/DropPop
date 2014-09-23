@@ -1,5 +1,6 @@
 angular.module('droppop', [
     'ionic',
+    'LocalStorageModule',
     'partials',
     'droppop.controllers',
     'droppop.directives',

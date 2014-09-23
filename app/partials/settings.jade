@@ -1,0 +1,22 @@
+ion-view(title='Settings')
+    ion-nav-buttons(side='left')
+        button.button.button-icon.button-clear.ion-navicon(ng-click='toggleMenu()')
+    ion-nav-buttons(side='right')
+        button.button.button-icon.ion-logout(ng-click='logout()')
+    
+    ion-content.form
+        .list
+            ion-toggle(ng-model='settings.notifications') Notifications
+            .item.item-icon-right(ui-sref='app.image-resolution')
+                | Image Resolution
+                .item-note {{ settings.imageResolution | imageResolution }}
+                i.icon.ion-ios7-arrow-right
+        
+        .list
+            .item.item-icon-right(ui-sref='app.privacy')
+                | Privacy
+                i.icon.ion-ios7-arrow-right
+            .item.item-icon-right(ui-sref='app.terms')
+                | Terms and Conditions
+                i.icon.ion-ios7-arrow-right
+            

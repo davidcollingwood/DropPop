@@ -1,0 +1,8 @@
+ion-view(title='Image Resolution')
+    ion-content.form
+        .list(ng-click='done()')
+            ion-radio(ng-model='settings.imageResolution', ng-value="'low'") {{ 'low' | imageResolution }}
+            ion-radio(ng-model='settings.imageResolution', ng-value="'good'") {{ 'good' | imageResolution }}
+            ion-radio(ng-model='settings.imageResolution', ng-value="'high'") {{ 'high' | imageResolution }}
+            ion-radio(ng-model='settings.imageResolution', ng-value="'very_high'") {{ 'very_high' | imageResolution }}
+        
