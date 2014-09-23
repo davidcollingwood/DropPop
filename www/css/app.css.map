@@ -1,0 +1,1 @@
+{"version":3,"sources":["app/styles/form.less"],"names":[],"mappings":"AAAA;AACA;AACA;AACA;AACA","file":"www/css/app.css","sourcesContent":[".form {\n  padding-top: 20px;\n  background-color: #efefef;\n}\n"]}

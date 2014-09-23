@@ -1,0 +1,163 @@
+angular.module('partials', [])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/app.html', [
+'',
+'<ion-side-menus>',
+'  <ion-side-menu-content ng-controller="AppCtrl">',
+'    <ion-nav-bar animation="nav-title-slide-ios7" class="bar-positive">',
+'      <ion-nav-back-button class="button-icon ion-ios7-arrow-left"></ion-nav-back-button>',
+'    </ion-nav-bar>',
+'    <ion-nav-view name="app" animation="slide-left-right-ios7"></ion-nav-view>',
+'  </ion-side-menu-content>',
+'  <ion-side-menu side="left">',
+'    <ion-content class="has-header">',
+'      <div class="list">',
+'        <div ui-sref="app.explore" menu-close nav-clear class="item item-icon-left"><i class="icon ion-map"></i>Explore</div>',
+'        <div ui-sref="app.profile" menu-close nav-clear class="item item-icon-left"><i class="icon ion-ios7-person"></i>Profile</div>',
+'        <div ui-sref="app.friends" menu-close nav-clear class="item item-icon-left"><i class="icon ion-ios7-people"></i>Friends</div>',
+'        <div ui-sref="app.favourites" menu-close nav-clear class="item item-icon-left"><i class="icon ion-star"></i>Favourites</div>',
+'        <div ui-sref="app.settings" menu-close nav-clear class="item item-icon-left"><i class="icon ion-gear-a"></i>Settings</div>',
+'      </div>',
+'    </ion-content>',
+'  </ion-side-menu>',
+'</ion-side-menus>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/article.html', [
+'',
+'<ion-view title="Article">',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/explore.html', [
+'',
+'<ion-view title="Explore">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/favourites.html', [
+'',
+'<ion-view title="Favourites">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/friends.html', [
+'',
+'<ion-view title="Friends">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/image-resolution.html', [
+'',
+'<ion-view title="Image Resolution">',
+'  <ion-content class="form">',
+'    <div ng-click="done()" class="list">',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'low\'">{{ \'low\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'good\'">{{ \'good\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'high\'">{{ \'high\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'very_high\'">{{ \'very_high\' | imageResolution }}</ion-radio>',
+'    </div>',
+'  </ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/language.html', [
+'',
+'<ion-view title="Language">',
+'  <ion-content class="form">',
+'    <div ng-click="done()" class="list">',
+'      <ion-radio ng-model="settings.language" ng-value="\'eng\'">{{ \'eng\' | language }}</ion-radio>',
+'    </div>',
+'  </ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/privacy.html', [
+'',
+'<ion-view title="Privacy">',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/profile.html', [
+'',
+'<ion-view title="Profile">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/report-modal.html', [
+'',
+'<ion-modal-view ng-controller="ReportModalCtrl">',
+'  <ion-header-bar class="bar-assertive">',
+'    <button ng-click="cancel()" class="button button-clear">Cancel</button>',
+'    <h1 class="title">Report a Problem</h1>',
+'    <button ng-click="send()" class="button button-clear">Send</button>',
+'  </ion-header-bar>',
+'  <ion-content class="form">',
+'    <div class="list">',
+'      <div class="item item-input">',
+'        <input type="text" placeholder="Your name" ng-model="report.name">',
+'      </div>',
+'      <div class="item item-input">',
+'        <input type="email" placeholder="Your email" ng-model="report.email">',
+'      </div>',
+'      <div class="item item-input">',
+'        <textarea placeholder="Describe your issue..." ng-model="report.description"></textarea>',
+'      </div>',
+'    </div>',
+'  </ion-content>',
+'</ion-modal-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/settings.html', [
+'',
+'<ion-view title="Settings">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-nav-buttons side="right">',
+'    <button ng-click="logout()" class="button button-icon ion-logout"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content class="form">',
+'    <div class="list">',
+'      <ion-toggle ng-model="settings.notifications">Notifications</ion-toggle>',
+'      <ion-toggle ng-model="settings.sync">Sync Data</ion-toggle>',
+'      <div ui-sref="app.image-resolution" class="item item-icon-right">Image Resolution',
+'        <div class="item-note">{{ settings.imageResolution | imageResolution }}</div><i class="icon ion-ios7-arrow-right"></i>',
+'      </div>',
+'      <div ui-sref="app.language" class="item item-icon-right">Language',
+'        <div class="item-note">{{ settings.language | language }}</div><i class="icon ion-ios7-arrow-right"></i>',
+'      </div>',
+'    </div>',
+'    <div class="list">',
+'      <div ui-sref="app.privacy" class="item item-icon-right">Privacy<i class="icon ion-ios7-arrow-right"></i></div>',
+'      <div ui-sref="app.terms" class="item item-icon-right">Terms and Conditions<i class="icon ion-ios7-arrow-right"></i></div>',
+'    </div>',
+'    <button ng-click="report()" class="button button-full button-assertive">Report a Problem</button>',
+'  </ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/terms.html', [
+'',
+'<ion-view title="Terms and Conditions">',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}]);
