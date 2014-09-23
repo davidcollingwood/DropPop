@@ -1,6 +1,6 @@
 angular.module('droppop.controllers')
 
-    .controller('ImageResolutionCtrl', function($scope, $timeout, $ionicNavBarDelegate, settings) {
+    .controller('SettingsDetailCtrl', function($scope, $timeout, $ionicNavBarDelegate, settings) {
         
         $scope.settings = settings;
         

@@ -1,0 +1,4 @@
+ion-view(title='Language')
+    ion-content.form
+        .list(ng-click='done()')
+            ion-radio(ng-model='settings.language', ng-value="'eng'") {{ 'eng' | language }}

@@ -1,6 +1,6 @@
 angular.module('droppop.controllers')
 
-    .controller('SettingsCtrl', function($scope, $ionicPopup, settings) {
+    .controller('SettingsCtrl', function($scope, $ionicPopup, $ionicModal, settings) {
         
         $scope.settings = settings;
         
@@ -13,6 +13,15 @@ angular.module('droppop.controllers')
                     // logout
                 }
             });
+        };
+        
+        $scope.report = function() {
+            $ionicModal.fromTemplateUrl('/partials/report-modal.html', {
+                scope: $scope
+            }).then(function(modal) {
+                $scope.modal = modal;
+                $scope.modal.show();
+            })
         };
         
     })

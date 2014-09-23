@@ -17,6 +17,10 @@ angular.module('droppop')
 
     .constant('WIKITUDE_WORLD', 'www/world.html')
     
+    .constant('$ionicLoadingConfig', {
+        template: '<i class="ion-loading-c"></i>'
+    })
+    
     .run(function($ionicPlatform) {
         $ionicPlatform.ready(function() {
             

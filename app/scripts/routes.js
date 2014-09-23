@@ -75,7 +75,17 @@ angular.module('droppop')
         		views: {
             		'app': {
                 		templateUrl: '/partials/image-resolution.html',
-                		controller: 'ImageResolutionCtrl'
+                		controller: 'SettingsDetailCtrl'
+            		}
+        		}
+    		})
+    		
+    		.state('app.language', {
+        		url: '/language',
+        		views: {
+            		'app': {
+                		templateUrl: '/partials/language.html',
+                		controller: 'SettingsDetailCtrl'
             		}
         		}
     		})

@@ -1,0 +1,15 @@
+ion-modal-view(ng-controller='ReportModalCtrl')
+    
+    ion-header-bar.bar-assertive
+        button.button.button-clear(ng-click='cancel()') Cancel
+        h1.title Report a Problem
+        button.button.button-clear(ng-click='send()') Send
+    
+    ion-content.form
+        .list
+            .item.item-input
+                input(type='text', placeholder='Your name', ng-model='report.name')
+            .item.item-input
+                input(type='email', placeholder='Your email', ng-model='report.email')
+            .item.item-input
+                textarea(placeholder='Describe your issue...', ng-model='report.description')
