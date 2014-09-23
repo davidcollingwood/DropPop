@@ -1,15 +1,28 @@
-angular.module('qldhealth').config(function($stateProvider, $urlRouterProvider) {
+angular.module('droppop')
 
-	$stateProvider
-		
-		.state('app', {
-			url: '/app',
-			abstract: true,
-			templateUrl: '/partials/menu.html'
-		})
-		
-	;
+    .config(function($stateProvider, $urlRouterProvider) {
+    
+    	$stateProvider
+    		
+    		.state('app', {
+    			url: '/app',
+    			abstract: true,
+    			templateUrl: '/partials/app.html'
+    		})
+    		
+    		.state('app.home', {
+        		url: '/home',
+        		views: {
+            		'app': {
+                		templateUrl: '/partials/home.html'
+            		}
+        		}
+    		})
+    		
+    	;
+    
+    	$urlRouterProvider.otherwise('/app/home');
+    
+    })
 
-	$urlRouterProvider.otherwise('/app/family');
-
-});
+;
