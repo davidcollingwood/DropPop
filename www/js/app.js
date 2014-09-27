@@ -5,13 +5,15 @@ angular.module('droppop', [
     'droppop.controllers',
     'droppop.directives',
     'droppop.services',
-    'droppop.filters'
+    'droppop.filters',
+    'droppop.models'
 ]);
 
 angular.module('droppop.controllers', []);
 angular.module('droppop.directives', []);
 angular.module('droppop.services', []);
 angular.module('droppop.filters', []);
+angular.module('droppop.models', []);
 
 angular.module('droppop')
 
@@ -62,7 +64,30 @@ angular.module('droppop.controllers')
 ;
 angular.module('droppop.controllers')
 
-    .controller('FriendsCtrl', function($scope) {
+    .controller('FriendCtrl', function($scope, $stateParams, user) {
+        
+        $scope.friend = user.getFriend($stateParams.friend_id);
+        
+    })
+
+;
+angular.module('droppop.controllers')
+
+    .controller('FriendsCtrl', function($scope, $ionicNavBarDelegate, user) {
+        
+        $scope.is_searching = false;
+        $scope.friends_filter = '';
+        $scope.friends = user.friends;
+        
+        $scope.search = function() {
+            $ionicNavBarDelegate.showBar(false);
+            $scope.is_searching = true;
+        };
+        
+        $scope.cancelSearch = function() {
+            $ionicNavBarDelegate.showBar(true);
+            $scope.is_searching = false;
+        };
         
     })
 
@@ -152,6 +177,15 @@ angular.module('droppop.controllers')
 ;
 angular.module('droppop.filters')
 
+    .filter('capitalise', function() {
+        return function(input) {
+            return input.charAt(0).toUpperCase() + input.slice(1);
+        };
+    })
+
+;
+angular.module('droppop.filters')
+
     .filter('imageResolution', function() {
         
         var input_map = {
@@ -187,6 +221,269 @@ angular.module('droppop.filters')
             return input;
             
         };
+        
+    })
+
+;
+angular.module('droppop.models')
+    
+    .service('$friend', function(localStorageService) {
+        
+        var friend = function(config) {
+            
+            config = config || {};
+            
+            this.name = {};
+            this.name.first = config.name.first || '';
+            this.name.last = config.name.last || '';
+            
+            this.gender = config.gender || '';
+            this.email = config.email || '';
+            
+            this.picture = {};
+            this.picture.thumbnail = config.picture.thumbnail || '';
+            this.picture.medium = config.picture.medium || '';
+            this.picture.large = config.picture.large || '';
+            
+        };
+        
+        friend.prototype = {
+            
+            /**
+             * Get first name
+             *
+             * @return string
+             */
+            getFirstName: function() {
+                return this.name.first;
+            },
+            
+            /**
+             * Get last name
+             *
+             * @return string
+             */
+            getLastName: function() {
+                return this.name.last;
+            },
+            
+            /**
+             * Get full name
+             *
+             * @return string
+             */
+            getName: function() {
+                return this.getFirstName() + ' ' + this.getLastName();
+            },
+            
+            /**
+             * Get profile picture url
+             *
+             * @param string size
+             * @return string
+             */
+            getPicture: function(size) {
+                switch (size) {
+                    case 'small':
+                        return this.picture.thumbnail;
+                    case 'medium':
+                        return this.picture.medium;
+                    default:
+                        return this.picture.large;
+                }
+            }
+            
+        };
+        
+        return friend;
+        
+    })
+    
+    .factory('Friend', function(localStorageService, $q, $friend) {
+        
+        var service = {
+            
+            /**
+             * Create a new instance of $friend
+             *
+             * @return friend
+             */
+            create: function(config) {
+                return new $friend(config);
+            }
+            
+        };
+        
+        return service;
+        
+    })
+
+;
+angular.module('droppop.models')
+    
+    .service('$user', function(localStorageService, Friend) {
+        
+        var user = function(config) {
+            
+            config = config || {};
+            
+            this.friends = [];
+            
+            angular.forEach(config.friends, function(friend) {
+                this.friends.push(Friend.create(friend));
+            }, this);
+            
+            this.save();
+            
+        };
+        
+        user.prototype = {
+            
+            /**
+             * Get friend by ID
+             *
+             * @param int friend_id
+             * @return friend
+             */
+            getFriend: function(friend_id) {
+                return this.friends[friend_id];
+            },
+            
+            /**
+             * Save user instance to local storage
+             */
+            save: function() {
+                localStorageService.set('user', this);
+            }
+            
+        };
+        
+        return user;
+        
+    })
+    
+    .factory('User', function(localStorageService, $q, $http, $user) {
+        
+        var user;
+        
+        var service = {
+            
+            /**
+             * Get the current instance OR create a new instance of $user
+             *
+             * @return promise
+             * @resolve user
+             */
+            get: function() {
+                var deferred = $q.defer();
+                
+                if (user) {
+                    deferred.resolve(user);
+                } else {
+                    service.load().then(function() {
+                        deferred.resolve(user);
+                    }).catch(function(err) {
+                        deferred.reject(err);
+                    });
+                }
+                
+                return deferred.promise;
+            },
+            
+            /**
+             * Create a new instance of $user
+             *
+             * @param object config
+             */
+            create: function(config) {
+                user = new $user(config);
+            },
+            
+            /**
+             * Load user config for new instance
+             *
+             * @return promise
+             */
+            load: function() {
+                var promise;
+                
+                if (localStorageService.get('user')) {
+                    promise = service.loadLocal();
+                } else {
+                    promise = service.loadDefault();
+                }
+                
+                return promise.then(function(config) {
+                    return service.create(config);
+                });
+            },
+            
+            /**
+             * Load user config from local resource
+             *
+             * @return promise
+             * @resolve object
+             */
+            loadLocal: function() {
+                return $q.when(localStorageService.get('user'));
+            },
+            
+            /**
+             * Load default values for new user
+             *
+             * @return promise
+             * @resolve object
+             */
+            loadDefault: function() {
+                return $q.all({
+                    friends: service.generateFriends()
+                });
+            },
+            
+            /**
+             * Generate array of friends
+             *
+             * @return promise
+             * @resolve array
+             */
+            generateFriends: function() {
+                var deferred = $q.defer();
+                
+                $q.all([
+                    service.generateRandomUser(),
+                    service.generateRandomUser(),
+                    service.generateRandomUser(),
+                    service.generateRandomUser(),
+                    service.generateRandomUser()
+                ]).then(function(friends) {
+                    deferred.resolve(friends);
+                }).catch(function(err) {
+                    deferred.reject(err);
+                });
+                
+                return deferred.promise;
+            },
+            
+            /**
+             * Generate a random user from api.randomuser.me
+             *
+             * @return promise
+             * @resolve object
+             */
+            generateRandomUser: function() {
+                var deferred = $q.defer();
+                
+                $http.get('http://api.randomuser.me/').success(function(response) {
+                    deferred.resolve(response.results[0].user);
+                }).catch(function(err) {
+                    deferred.reject(err);
+                });
+                
+                return deferred.promise;
+            }
+        };
+        
+        return service;
         
     })
 
@@ -228,7 +525,27 @@ angular.module('droppop')
         		views: {
             		'app': {
                 		templateUrl: '/partials/friends.html',
-                		controller: 'FriendsCtrl'
+                		controller: 'FriendsCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		}
+                		}
+            		}
+        		}
+    		})
+    		
+    		.state('app.friend', {
+        		url: '/friends/:friend_id',
+        		views: {
+            		'app': {
+                		templateUrl: '/partials/friend.html',
+                		controller: 'FriendCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		}
+                		}
             		}
         		}
     		})

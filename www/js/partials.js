@@ -34,7 +34,7 @@ angular.module('partials', [])
 '',
 '<ion-view title="Explore">',
 '  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
 '  <ion-content></ion-content>',
 '</ion-view>',''].join("\n"));
@@ -44,19 +44,41 @@ angular.module('partials', [])
 '',
 '<ion-view title="Favourites">',
 '  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
 '  <ion-content></ion-content>',
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/friend.html', [
+'',
+'<ion-view title="{{ friend.getName() | capitalise }}" class="friend">',
+'  <ion-content padding="true">',
+'    <div class="large-avatar"><img ng-src="{{ friend.getPicture() }}"></div>',
+'  </ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/friends.html', [
 '',
-'<ion-view title="Friends">',
+'<ion-view title="Friends" class="friends">',
 '  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
-'  <ion-content></ion-content>',
+'  <ion-nav-buttons side="right">',
+'    <button ng-click="search()" class="button button-icon ion-ios7-search"></button>',
+'  </ion-nav-buttons>',
+'  <div ng-show="is_searching" class="bar bar-header item-input-inset">',
+'    <label class="item-input-wrapper"><i class="icon ion-ios7-search placeholder-icon"></i>',
+'      <input type="search" placeholder="Search" ng-model="friends_filter">',
+'    </label>',
+'    <button ng-click="cancelSearch()" class="button button-clear">Cancel</button>',
+'  </div>',
+'  <ion-content>',
+'    <div class="list">',
+'      <div ng-repeat="friend in friends track by $index" ui-sref="app.friend({ friend_id: $index })" class="item item-avatar item-icon-right"><img ng-src="{{ friend.getPicture(&quot;small&quot;) }}">{{ friend.getName() | capitalise }}<i class="icon ion-ios7-arrow-right"></i></div>',
+'    </div>',
+'  </ion-content>',
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
@@ -96,7 +118,7 @@ angular.module('partials', [])
 '',
 '<ion-view title="Profile">',
 '  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
 '  <ion-content></ion-content>',
 '</ion-view>',''].join("\n"));
@@ -130,7 +152,7 @@ angular.module('partials', [])
 '',
 '<ion-view title="Settings">',
 '  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon button-clear ion-navicon"></button>',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
 '  <ion-nav-buttons side="right">',
 '    <button ng-click="logout()" class="button button-icon ion-logout"></button>',

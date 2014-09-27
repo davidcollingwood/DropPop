@@ -3,5 +3,25 @@
   background-color: #efefef;
 }
 
+.friend .large-avatar {
+  margin: 20px 60px;
+}
+.friend .large-avatar > img {
+  width: 100%;
+  border-radius: 50%;
+}
+
+.friends .item-avatar {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+.friends .item-avatar > img {
+  top: 11px;
+  left: 11px;
+  max-height: 50px;
+  max-width: 50px;
+  border-radius: 50%;
+}
+
 
 /*# sourceMappingURL=app.css.map*/
