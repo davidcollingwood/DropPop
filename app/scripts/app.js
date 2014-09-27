@@ -5,13 +5,15 @@ angular.module('droppop', [
     'droppop.controllers',
     'droppop.directives',
     'droppop.services',
-    'droppop.filters'
+    'droppop.filters',
+    'droppop.models'
 ]);
 
 angular.module('droppop.controllers', []);
 angular.module('droppop.directives', []);
 angular.module('droppop.services', []);
 angular.module('droppop.filters', []);
+angular.module('droppop.models', []);
 
 angular.module('droppop')
 

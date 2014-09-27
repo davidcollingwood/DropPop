@@ -35,7 +35,27 @@ angular.module('droppop')
         		views: {
             		'app': {
                 		templateUrl: '/partials/friends.html',
-                		controller: 'FriendsCtrl'
+                		controller: 'FriendsCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		}
+                		}
+            		}
+        		}
+    		})
+    		
+    		.state('app.friend', {
+        		url: '/friends/:friend_id',
+        		views: {
+            		'app': {
+                		templateUrl: '/partials/friend.html',
+                		controller: 'FriendCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		}
+                		}
             		}
         		}
     		})
