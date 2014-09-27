@@ -1,4 +1,18 @@
-ion-view(title='Friends')
+ion-view.friends(title='Friends')
     ion-nav-buttons(side='left')
-        button.button.button-icon.button-clear.ion-navicon(ng-click='toggleMenu()')
+        button.button.button-icon.ion-navicon(ng-click='toggleMenu()')
+    ion-nav-buttons(side='right')
+        button.button.button-icon.ion-ios7-search(ng-click='search()')
+    
+    .bar.bar-header.item-input-inset(ng-show="is_searching")
+        label.item-input-wrapper
+            i.icon.ion-ios7-search.placeholder-icon
+            input(type='search', placeholder='Search', ng-model='friends_filter')
+        button.button.button-clear(ng-click='cancelSearch()') Cancel
+    
     ion-content
+        .list
+            .item.item-avatar.item-icon-right(ng-repeat='friend in friends track by $index', ui-sref='app.friend({ friend_id: $index })')
+                img(ng-src='{{ friend.getPicture("small") }}')
+                | {{ friend.getName() | capitalise }}
+                i.icon.ion-ios7-arrow-right
