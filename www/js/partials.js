@@ -23,6 +23,27 @@ angular.module('partials', [])
 '</ion-side-menus>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/article-modal.html', [
+'',
+'<ion-modal-view ng-controller="ArticleModalCtrl">',
+'  <ion-header-bar class="bar-positive">',
+'    <button ng-click="cancel()" class="button button-clear">Cancel</button>',
+'    <h1 class="title">Create Article</h1>',
+'    <button ng-click="save()" class="button button-clear">Save</button>',
+'  </ion-header-bar>',
+'  <ion-content class="form">',
+'    <div class="list">',
+'      <div class="item item-input">',
+'        <input type="text" placeholder="Title" ng-model="article.title">',
+'      </div>',
+'      <div class="item item-input">',
+'        <textarea placeholder="Content..." ng-model="article.content"></textarea>',
+'      </div>',
+'    </div>',
+'  </ion-content>',
+'</ion-modal-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/article.html', [
 '',
 '<ion-view title="Article">',
@@ -32,9 +53,12 @@ angular.module('partials', [])
 .run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/explore.html', [
 '',
-'<ion-view title="Explore">',
+'<ion-view title="Explore" class="explore">',
 '  <ion-nav-buttons side="left">',
 '    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-nav-buttons side="right">',
+'    <button ng-click="loadWorld()" class="button button-icon ion-map"></button>',
 '  </ion-nav-buttons>',
 '  <ion-content></ion-content>',
 '</ion-view>',''].join("\n"));

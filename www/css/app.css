@@ -1,3 +1,20 @@
+.explore-item {
+  float: left;
+  margin: 0;
+  width: 33.33333333%;
+  padding: 0;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  border: none;
+}
+.explore-article {
+  margin: 0 auto;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: #4A87EE;
+}
+
 .form {
   padding-top: 20px;
   background-color: #efefef;

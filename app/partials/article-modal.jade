@@ -1,0 +1,13 @@
+ion-modal-view(ng-controller='ArticleModalCtrl')
+    
+    ion-header-bar.bar-positive
+        button.button.button-clear(ng-click='cancel()') Cancel
+        h1.title Create Article
+        button.button.button-clear(ng-click='save()') Save
+    
+    ion-content.form
+        .list
+            .item.item-input
+                input(type='text', placeholder='Title', ng-model='article.title')
+            .item.item-input
+                textarea(placeholder='Content...', ng-model='article.content')

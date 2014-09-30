@@ -50,7 +50,31 @@ angular.module('droppop.controllers')
 ;
 angular.module('droppop.controllers')
 
-    .controller('ExploreCtrl', function($scope) {
+    .controller('ArticleModalCtrl', function($scope) {
+        
+        $scope.cancel = function() {
+            $scope.modal.remove();
+        };
+        
+        $scope.save = function() {
+            $scope.modal.remove();
+        };
+        
+    })
+
+;
+angular.module('droppop.controllers')
+
+    .controller('ExploreCtrl', function($scope, $timeout, $ionicLoading, wikitude) {
+        
+        $scope.loadWorld = function() {
+            $ionicLoading.show();
+            
+            $timeout(function() {
+                wikitude.loadWorld();
+                $ionicLoading.hide();
+            }, 500);
+        };
         
     })
 
@@ -644,9 +668,15 @@ angular.module('droppop.services')
 ;
 angular.module('droppop.services')
     
-    .service('wikitude', function($window, $q, WIKITUDE_WORLD) {
+    .service('wikitude', function($window, $q, $ionicPlatform, WIKITUDE_WORLD) {
         
-        var wikitude_plugin = $window.cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+        var wikitude_plugin;
+        
+        $ionicPlatform.ready(function() {
+            if (ionic.Platform.isWebView()) {
+                wikitude_plugin = $window.cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+            }
+        });
         
         var service = {
             
@@ -658,7 +688,12 @@ angular.module('droppop.services')
             isSupported: function() {
                 var deferred = $q.defer();
                 
-                wikitude_plugin.isDeviceSupported(deferred.resolve, deferred.reject);
+                wikitude_plugin.isDeviceSupported(function() {
+                    deferred.resolve();
+                }, function() {
+                    console.log('device not supported');
+                    deferred.reject();
+                });
                 
                 return deferred.promise;
             },
@@ -667,7 +702,14 @@ angular.module('droppop.services')
              * Load the AR world
              */
             loadWorld: function() {
-                wikitude_plugin.loadARchitectWorld("");
+                if (!ionic.Platform.isWebView())
+                    return false;
+                
+                if (!service.isSupported())
+                    return false;
+                
+                wikitude_plugin.loadARchitectWorld(WIKITUDE_WORLD);
+                return true;
             }
             
         };
