@@ -1,6 +1,6 @@
 angular.module('droppop.services')
     
-    .service('wikitude', function($window, $q, $ionicPlatform, WIKITUDE_WORLD) {
+    .service('wikitude', function($window, $q, $ionicPlatform, WIKITUDE_WORLD, messages) {
         
         var wikitude_plugin;
         
@@ -20,11 +20,16 @@ angular.module('droppop.services')
             isSupported: function() {
                 var deferred = $q.defer();
                 
+                if (angular.isUndefined(wikitude_plugin)) {
+                    deferred.reject(messages.error.wikitude.device_not_supported);
+                    return deferred.promise;
+                }
+                
                 wikitude_plugin.isDeviceSupported(function() {
                     deferred.resolve();
                 }, function() {
                     console.log('device not supported');
-                    deferred.reject();
+                    deferred.reject(messages.error.wikitude.device_not_supported);
                 });
                 
                 return deferred.promise;
@@ -34,14 +39,9 @@ angular.module('droppop.services')
              * Load the AR world
              */
             loadWorld: function() {
-                if (!ionic.Platform.isWebView())
-                    return false;
-                
-                if (!service.isSupported())
-                    return false;
-                
-                wikitude_plugin.loadARchitectWorld(WIKITUDE_WORLD);
-                return true;
+                return service.isSupported().then(function() {
+                    return wikitude_plugin.loadARchitectWorld(WIKITUDE_WORLD);
+                });
             }
             
         };
