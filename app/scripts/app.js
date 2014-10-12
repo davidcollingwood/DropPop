@@ -17,7 +17,7 @@ angular.module('droppop.models', []);
 
 angular.module('droppop')
 
-    .constant('WIKITUDE_WORLD', 'www/world.html')
+    .constant('WIKITUDE_WORLD', 'www/world/index.html')
     
     .constant('$ionicLoadingConfig', {
         template: '<i class="ion-loading-c"></i>'

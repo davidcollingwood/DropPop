@@ -1,15 +1,22 @@
 angular.module('droppop.models')
     
-    .service('$user', function(localStorageService, Friend) {
+    .service('$user', function(localStorageService, Friend, Article) {
         
         var user = function(config) {
             
             config = config || {};
             
+            console.log(config);
+            
             this.friends = [];
+            this.favourites = [];
             
             angular.forEach(config.friends, function(friend) {
                 this.friends.push(Friend.create(friend));
+            }, this);
+            
+            angular.forEach(config.favourites, function(favourite) {
+                this.favourites.push(Article.create(favourite));
             }, this);
             
             this.save();
@@ -29,6 +36,15 @@ angular.module('droppop.models')
             },
             
             /**
+             * Get articles that the user has marked as favourite
+             *
+             * @return array
+             */
+            getFavourites: function() {
+                return this.favourites;
+            },
+            
+            /**
              * Save user instance to local storage
              */
             save: function() {
@@ -41,7 +57,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('User', function(localStorageService, $q, $http, $user) {
+    .factory('User', function(localStorageService, $q, $http, $user, Article) {
         
         var user;
         
@@ -115,7 +131,8 @@ angular.module('droppop.models')
              */
             loadDefault: function() {
                 return $q.all({
-                    friends: service.generateFriends()
+                    friends: service.generateFriends(),
+                    favourites: service.generateFavourites()
                 });
             },
             
@@ -159,6 +176,32 @@ angular.module('droppop.models')
                 });
                 
                 return deferred.promise;
+            },
+            
+            /**
+             * Generate array of favourite articles
+             
+             * @return promise
+             * @resolve array
+             */
+            generateFavourites: function() {
+                return $q.all([
+                    service.generateFavourite(),
+                    service.generateFavourite(),
+                    service.generateFavourite(),
+                    service.generateFavourite(),
+                    service.generateFavourite()
+                ]);
+            },
+            
+            /**
+             * Generate a random favourite article
+             *
+             * @return promise
+             * @return object
+             */
+            generateFavourite: function() {
+                return $q.when(Article.generate())
             }
         };
         

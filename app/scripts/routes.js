@@ -75,7 +75,12 @@ angular.module('droppop')
         		views: {
             		'app': {
                 		templateUrl: '/partials/favourites.html',
-                		controller: 'FavouritesCtrl'
+                		controller: 'FavouritesCtrl',
+                		resolve: {
+                		    user: function(User) {
+                    		    return User.get();
+                		    }
+                		}
             		}
         		}
     		})
