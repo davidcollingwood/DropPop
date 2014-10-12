@@ -8,7 +8,8 @@ var World = {
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 5, {
     		onClick: function() {
-        		alert('Tap tap tap');
+    		    alert('tap tap tap');
+        		window.location = 'architectsdk://close';
     		}
 		});
 

@@ -800,6 +800,7 @@ angular.module('droppop.services')
         $ionicPlatform.ready(function() {
             if (ionic.Platform.isWebView()) {
                 wikitude_plugin = $window.cordova.require("com.wikitude.phonegap.WikitudePlugin.WikitudePlugin");
+                wikitude_plugin.setOnUrlInvokeCallback(service.onUrlInvoked);
             }
         });
         
@@ -835,6 +836,19 @@ angular.module('droppop.services')
                 return service.isSupported().then(function() {
                     return wikitude_plugin.loadARchitectWorld(WIKITUDE_WORLD);
                 });
+            },
+            
+            /**
+             * Listen for any url changes in the AR world
+             */
+            onUrlInvoked: function(url) {
+                alert('url invoked: ' + url);
+                switch (url) {
+                    case 'close':
+                        alert('close wikitude');
+                        wikitude_plugin.close();
+                        break;
+                }
             }
             
         };
