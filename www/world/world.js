@@ -27,6 +27,7 @@ var World = {
 			The custom function World.onLocationChanged checks with the flag World.initiallyLoadedData if the function was already called. With the first call of World.onLocationChanged an object that contains geo information will be created which will be later used to create a marker using the World.loadPoisFromJsonData function.
 		*/
 		if (!World.initiallyLoadedData) {
+/*
 		    World.loadPoisFromJsonData({
     		    'longitude': (lon + (Math.random() / 1 - 0.1)),
     		    'latitude': (lat + (Math.random() / 1 - 0.1)),
@@ -80,10 +81,11 @@ var World = {
     		    'latitude': (lat + (Math.random() / 9 - 0.1)),
     		    'altitude': 100.0
 		    });
+*/
 		    
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 100 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 100 - 0.1)),
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
     		    'altitude': 100.0
 		    });
 		    
