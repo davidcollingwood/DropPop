@@ -843,7 +843,7 @@ angular.module('droppop.services')
              */
             onUrlInvoked: function(url) {
                 alert('url invoked: ' + url);
-                switch (url) {
+                switch (url.substr(22)) {
                     case 'close':
                         alert('close wikitude');
                         wikitude_plugin.close();

@@ -9,7 +9,7 @@ var World = {
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 5, {
     		onClick: function() {
     		    alert('tap tap tap');
-        		window.location = 'architect://close';
+        		window.location = 'architectsdk://close';
     		}
 		});
 
@@ -28,61 +28,6 @@ var World = {
 			The custom function World.onLocationChanged checks with the flag World.initiallyLoadedData if the function was already called. With the first call of World.onLocationChanged an object that contains geo information will be created which will be later used to create a marker using the World.loadPoisFromJsonData function.
 		*/
 		if (!World.initiallyLoadedData) {
-/*
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 1 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 2 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 2 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 3 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 3 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 4 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 4 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 5 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 5 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 6 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 6 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 7 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 7 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 8 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 8 - 0.1)),
-    		    'altitude': 100.0
-		    });
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 9 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 9 - 0.1)),
-    		    'altitude': 100.0
-		    });
-*/
 		    
 		    World.loadPoisFromJsonData({
     		    'longitude': (lon + (Math.random() / 1000)),
