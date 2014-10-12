@@ -116,20 +116,6 @@ angular.module('partials', [])
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/image-resolution.html', [
-'',
-'<ion-view title="Image Resolution">',
-'  <ion-content class="form">',
-'    <div ng-click="done()" class="list">',
-'      <ion-radio ng-model="settings.imageResolution" ng-value="\'low\'">{{ \'low\' | imageResolution }}</ion-radio>',
-'      <ion-radio ng-model="settings.imageResolution" ng-value="\'good\'">{{ \'good\' | imageResolution }}</ion-radio>',
-'      <ion-radio ng-model="settings.imageResolution" ng-value="\'high\'">{{ \'high\' | imageResolution }}</ion-radio>',
-'      <ion-radio ng-model="settings.imageResolution" ng-value="\'very_high\'">{{ \'very_high\' | imageResolution }}</ion-radio>',
-'    </div>',
-'  </ion-content>',
-'</ion-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/language.html', [
 '',
 '<ion-view title="Language">',
@@ -155,6 +141,20 @@ angular.module('partials', [])
 '    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
 '  </ion-nav-buttons>',
 '  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/image-resolution.html', [
+'',
+'<ion-view title="Image Resolution">',
+'  <ion-content class="form">',
+'    <div ng-click="done()" class="list">',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'low\'">{{ \'low\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'good\'">{{ \'good\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'high\'">{{ \'high\' | imageResolution }}</ion-radio>',
+'      <ion-radio ng-model="settings.imageResolution" ng-value="\'very_high\'">{{ \'very_high\' | imageResolution }}</ion-radio>',
+'    </div>',
+'  </ion-content>',
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {

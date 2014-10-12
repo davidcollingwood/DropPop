@@ -9,7 +9,7 @@ var World = {
 	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
-		var markerHtmlDrawable = new AR.HtmlDrawable({ html: '<div class="ar-bubble"></div>' }, 1, {
+		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 1, {
     		zOrder: 0,
     		onClick: function() {
         		alert('Tap tap tap');
