@@ -12,7 +12,6 @@ var World = {
         });
 	    
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
-/*
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 2.5, {
     		offsetX: 10,
     		offsetY: 10,
@@ -20,12 +19,11 @@ var World = {
         		alert('Tap tap tap');
     		}
 		});
-*/
 
 		// create GeoObject
 		var markerObject = new AR.GeoObject(markerLocation, {
 			drawables: {
-				cam: [markerImageDrawable] // markerHtmlDrawable,
+				cam: [markerImageDrawable, markerHtmlDrawable]
 			}
 		});
 
