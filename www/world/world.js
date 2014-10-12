@@ -9,7 +9,7 @@ var World = {
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 5, {
     		onClick: function() {
     		    alert('tap tap tap');
-        		window.location = 'architectsdk://close';
+        		window.location = 'architect://close';
     		}
 		});
 
