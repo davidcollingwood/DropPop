@@ -12,6 +12,7 @@ var World = {
         });
 	    
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
+/*
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 2.5, {
     		offsetX: 10,
     		offsetY: 10,
@@ -19,11 +20,12 @@ var World = {
         		alert('Tap tap tap');
     		}
 		});
+*/
 
 		// create GeoObject
 		var markerObject = new AR.GeoObject(markerLocation, {
 			drawables: {
-				cam: [markerHtmlDrawable, markerImageDrawable]
+				cam: [markerImageDrawable] // markerHtmlDrawable,
 			}
 		});
 
@@ -60,9 +62,9 @@ var World = {
 			// creates a poi object with a random location near the user's location
 			var poiData = {
 				"id": 1,
-				"longitude": (lon + 0.0000000001),
-				"latitude": (lat + 0.0000000001),
-				"altitude": alt // 100.0
+				"longitude": (lon + (Math.random() / 5 - 0.1)),
+				"latitude": (lat + (Math.random() / 5 - 0.1)),
+				"altitude": 100.0
 			};
 
 			World.loadPoisFromJsonData(poiData);
