@@ -82,8 +82,8 @@ var World = {
 		    });
 		    
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 10 - 0.1)),
-    		    'latitude': (lat + (Math.random() / 10 - 0.1)),
+    		    'longitude': (lon + (Math.random() / 100 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 100 - 0.1)),
     		    'altitude': 100.0
 		    });
 		    
