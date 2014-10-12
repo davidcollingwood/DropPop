@@ -5,16 +5,8 @@ var World = {
 
 	// called to inject new POI data
 	loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
-	    var markerDrawable = new AR.ImageResource("marker_idle.png");
-	    var markerImageDrawable = new AR.ImageDrawable(markerDrawable, 2.5, {
-            zOrder: 1,
-            opacity: 0.5
-        });
-	    
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
 		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 5, {
-    		offsetX: 1,
-    		offsetY: 1,
     		onClick: function() {
         		alert('Tap tap tap');
     		}
@@ -23,31 +15,9 @@ var World = {
 		// create GeoObject
 		var markerObject = new AR.GeoObject(markerLocation, {
 			drawables: {
-				cam: [markerImageDrawable, markerHtmlDrawable]
+				cam: [markerHtmlDrawable]
 			}
 		});
-
-		// Updates status message as a user feedback that everything was loaded properly.
-		World.updateStatusMessage('1 place loaded');
-	},
-
-	// updates status message shon in small "i"-button aligned bottom center
-	updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
-
-		var themeToUse = isWarning ? "e" : "c";
-		var iconToUse = isWarning ? "alert" : "info";
-        
-        document.getElementById('status-message').innerHTML = message;
-        
-/*
-		$("#status-message").html(message);
-		$("#popupInfoButton").buttonMarkup({
-			theme: themeToUse
-		});
-		$("#popupInfoButton").buttonMarkup({
-			icon: iconToUse
-		});
-*/
 	},
 
 	// location updates, fired every time you call architectView.setLocation() in native environment
@@ -57,15 +27,66 @@ var World = {
 			The custom function World.onLocationChanged checks with the flag World.initiallyLoadedData if the function was already called. With the first call of World.onLocationChanged an object that contains geo information will be created which will be later used to create a marker using the World.loadPoisFromJsonData function.
 		*/
 		if (!World.initiallyLoadedData) {
-			// creates a poi object with a random location near the user's location
-			var poiData = {
-				"id": 1,
-				"longitude": (lon + (Math.random() / 5 - 0.1)),
-				"latitude": (lat + (Math.random() / 5 - 0.1)),
-				"altitude": 100.0
-			};
-
-			World.loadPoisFromJsonData(poiData);
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 1 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 2 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 2 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 3 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 3 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 4 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 4 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 5 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 5 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 6 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 6 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 7 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 7 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 8 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 8 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 9 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 9 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 10 - 0.1)),
+    		    'latitude': (lat + (Math.random() / 10 - 0.1)),
+    		    'altitude': 100.0
+		    });
+		    
 			World.initiallyLoadedData = true;
 		}
 	},
