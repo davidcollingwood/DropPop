@@ -23,13 +23,6 @@ angular.module('partials', [])
 '</ion-side-menus>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/article.html', [
-'',
-'<ion-view title="Article">',
-'  <ion-content></ion-content>',
-'</ion-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/article-modal.html', [
 '',
 '<ion-modal-view ng-controller="ArticleModalCtrl">',
@@ -49,6 +42,13 @@ angular.module('partials', [])
 '    </div>',
 '  </ion-content>',
 '</ion-modal-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/article.html', [
+'',
+'<ion-view title="Article">',
+'  <ion-content></ion-content>',
+'</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/explore.html', [

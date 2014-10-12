@@ -12,9 +12,9 @@ var World = {
         });
 	    
 		var markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
-		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 2.5, {
-    		offsetX: 10,
-    		offsetY: 10,
+		var markerHtmlDrawable = new AR.HtmlDrawable({ uri: 'bubble.html' }, 10, {
+    		offsetX: 1,
+    		offsetY: 1,
     		onClick: function() {
         		alert('Tap tap tap');
     		}
