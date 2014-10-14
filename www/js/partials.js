@@ -24,25 +24,6 @@ angular.module('partials', [])
 '</ion-side-menus>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/article.html', [
-'',
-'<ion-view title="Article" class="article">',
-'  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon ion-ios7-arrow-left"></button>',
-'  </ion-nav-buttons>',
-'  <ion-nav-buttons side="right">',
-'    <button ng-click="drop()" class="button button-icon ion-ios7-upload-outline"></button>',
-'  </ion-nav-buttons>',
-'  <ion-content padding="true">',
-'    <h2 class="title">An Interesting Title</h2><small class="author">by The Author</small>',
-'    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet rhoncus enim, quis fermentum magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin vitae placerat massa, id vestibulum est. Duis feugiat felis ligula, nec commodo purus rutrum ac. Mauris id malesuada mauris, vel ultricies magna. Suspendisse porttitor mattis sapien eget accumsan. Donec pharetra consectetur ipsum. Fusce aliquam tortor dignissim, vestibulum nisi id, condimentum nisi.</p>',
-'    <p>Vivamus libero diam, sagittis eu lacus id, lobortis imperdiet enim. Curabitur semper lacinia arcu. Pellentesque venenatis metus vitae justo feugiat tempor. Integer porta, ligula ac mattis pulvinar, libero elit viverra purus, quis vehicula ex lorem eget tortor. Nam nec felis nec nulla tincidunt condimentum. Donec hendrerit mi libero, non consequat nunc scelerisque sed. Nunc eu metus purus. Vivamus sit amet commodo nisi. Sed vehicula magna in nisl bibendum, at lacinia diam aliquet. In hac habitasse platea dictumst.</p>',
-'    <p>Cras semper sagittis euismod. Proin venenatis accumsan velit ac tempor. Etiam quis lectus fringilla, sollicitudin leo nec, venenatis nisi. Nunc blandit nunc non fringilla feugiat. Vestibulum varius mi at arcu sagittis fringilla. Duis nulla sem, gravida id aliquet sit amet, ultricies in purus. Donec quis leo nec urna pretium pulvinar. Pellentesque in tellus purus. Sed mollis semper justo at efficitur. Mauris velit massa, efficitur id sagittis eget, fermentum sed risus. Cras lectus elit, tincidunt in maximus elementum, tincidunt sit amet dolor. Vestibulum sapien mauris, porta cursus auctor vitae, condimentum vel est. Donec nunc risus, gravida vel dui a, sagittis finibus libero. Donec at dui vel ex porta sollicitudin eget eget felis.</p>',
-'  </ion-content>',
-'  <button ng-click="cancelDrop()" class="button button-icon ion-ios7-close-outline"></button>',
-'</ion-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/article-modal.html', [
 '',
 '<ion-modal-view ng-controller="ArticleModalCtrl">',
@@ -77,6 +58,34 @@ angular.module('partials', [])
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/article.html', [
+'',
+'<ion-view title="Article" class="article">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-ios7-arrow-left"></button>',
+'  </ion-nav-buttons>',
+'  <ion-nav-buttons side="right">',
+'    <button ng-click="drop()" class="button button-icon ion-ios7-upload-outline"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content padding="true">',
+'    <h2 class="title">An Interesting Title</h2><small class="author">by The Author</small>',
+'    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sit amet rhoncus enim, quis fermentum magna. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin vitae placerat massa, id vestibulum est. Duis feugiat felis ligula, nec commodo purus rutrum ac. Mauris id malesuada mauris, vel ultricies magna. Suspendisse porttitor mattis sapien eget accumsan. Donec pharetra consectetur ipsum. Fusce aliquam tortor dignissim, vestibulum nisi id, condimentum nisi.</p>',
+'    <p>Vivamus libero diam, sagittis eu lacus id, lobortis imperdiet enim. Curabitur semper lacinia arcu. Pellentesque venenatis metus vitae justo feugiat tempor. Integer porta, ligula ac mattis pulvinar, libero elit viverra purus, quis vehicula ex lorem eget tortor. Nam nec felis nec nulla tincidunt condimentum. Donec hendrerit mi libero, non consequat nunc scelerisque sed. Nunc eu metus purus. Vivamus sit amet commodo nisi. Sed vehicula magna in nisl bibendum, at lacinia diam aliquet. In hac habitasse platea dictumst.</p>',
+'    <p>Cras semper sagittis euismod. Proin venenatis accumsan velit ac tempor. Etiam quis lectus fringilla, sollicitudin leo nec, venenatis nisi. Nunc blandit nunc non fringilla feugiat. Vestibulum varius mi at arcu sagittis fringilla. Duis nulla sem, gravida id aliquet sit amet, ultricies in purus. Donec quis leo nec urna pretium pulvinar. Pellentesque in tellus purus. Sed mollis semper justo at efficitur. Mauris velit massa, efficitur id sagittis eget, fermentum sed risus. Cras lectus elit, tincidunt in maximus elementum, tincidunt sit amet dolor. Vestibulum sapien mauris, porta cursus auctor vitae, condimentum vel est. Donec nunc risus, gravida vel dui a, sagittis finibus libero. Donec at dui vel ex porta sollicitudin eget eget felis.</p>',
+'  </ion-content>',
+'  <button ng-click="cancelDrop()" class="button button-icon ion-ios7-close-outline"></button>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/friend.html', [
+'',
+'<ion-view title="{{ friend.getName() | capitalise }}" class="friend">',
+'  <ion-content padding="true">',
+'    <div class="large-avatar"><img ng-src="{{ friend.getPicture() }}"></div>',
+'  </ion-content>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/favourites.html', [
 '',
 '<ion-view title="Favourites">',
@@ -93,15 +102,6 @@ angular.module('partials', [])
 '        <p>{{ article.author }}</p><i class="icon ion-ios7-arrow-right"></i>',
 '      </ion-item>',
 '    </ion-list>',
-'  </ion-content>',
-'</ion-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/friend.html', [
-'',
-'<ion-view title="{{ friend.getName() | capitalise }}" class="friend">',
-'  <ion-content padding="true">',
-'    <div class="large-avatar"><img ng-src="{{ friend.getPicture() }}"></div>',
 '  </ion-content>',
 '</ion-view>',''].join("\n"));
 }])
