@@ -34,6 +34,61 @@ var World = {
     		    'latitude': (lat + (Math.random() / 1000)),
     		    'altitude': 100.0
 		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
+		    World.loadPoisFromJsonData({
+    		    'longitude': (lon + (Math.random() / 1000)),
+    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'altitude': 100.0
+		    });
 		    
 			World.initiallyLoadedData = true;
 		}
