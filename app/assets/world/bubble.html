@@ -5,5 +5,10 @@
 </head>
 <body height="500px" width="500px">
     <div class="ar-bubble"></div>
+    
+    <script type="text/javascript">
+        var ar_bubble = document.getElementsByClassName('ar-bubble')[0];
+        ar_bubble.style.webkitAnimation = 'bubble-animation ' + (Math.random() * 2 + 3) + 's infinite linear';
+    </script>
 </body>
 </html>
