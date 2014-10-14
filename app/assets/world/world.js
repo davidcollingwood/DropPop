@@ -1,5 +1,20 @@
 // implementation of AR-Experience (aka "World")
 var World = {
+    // ranges for random values
+    range: {
+        latitude: 0.0001,
+        longitude: 0.0001,
+        altitude: 1
+    },
+    
+    // user's current position
+    position: {
+        latitude: 0,
+        longitude: 0,
+        altitude: 0,
+        accuracy: 0
+    },
+    
 	// true once data was fetched
 	initiallyLoadedData: false,
 
@@ -20,76 +35,37 @@ var World = {
 			}
 		});
 	},
+	
+	createPois: function(count) {
+    	for (var i = 0; i < count; i++) {
+    	    World.createPoi();
+    	}
+	},
+	
+	createPoi: function() {
+	    var lat = World.position.latitude - (World.range.latitude / 2) + Math.random() * World.range.latitude;
+	    var lon = World.position.longitude - (World.range.longitude / 2) + Math.random() * World.range.longitude;
+	    var alt = World.position.altitude - (World.range.altitude / 2) + Math.random() * World.range.altitude;
+	    
+    	World.loadPoisFromJsonData({
+        	latitude: lat,
+        	longitude: lon,
+        	altitude: alt
+    	});
+	},
 
 	// location updates, fired every time you call architectView.setLocation() in native environment
 	locationChanged: function locationChangedFn(lat, lon, alt, acc) {
-
+	    World.position.latitude = lat;
+        World.position.longitude = lon;
+        World.position.altitude = alt;
+        World.position.accuracy = acc;
+        
 		/*
 			The custom function World.onLocationChanged checks with the flag World.initiallyLoadedData if the function was already called. With the first call of World.onLocationChanged an object that contains geo information will be created which will be later used to create a marker using the World.loadPoisFromJsonData function.
 		*/
 		if (!World.initiallyLoadedData) {
-		    
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000000)),
-    		    'latitude': (lat + (Math.random() / 1000000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000000)),
-    		    'latitude': (lat + (Math.random() / 1000000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000000)),
-    		    'latitude': (lat + (Math.random() / 1000000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 100000)),
-    		    'latitude': (lat + (Math.random() / 100000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 100000)),
-    		    'latitude': (lat + (Math.random() / 100000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 10000)),
-    		    'latitude': (lat + (Math.random() / 10000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 10000)),
-    		    'latitude': (lat + (Math.random() / 10000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
-    		    'altitude': 100.0
-		    });
-		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
-    		    'altitude': 100.0
-		    });
-		    
+		    World.createPois(20);
 			World.initiallyLoadedData = true;
 		}
 	},
