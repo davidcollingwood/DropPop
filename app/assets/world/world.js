@@ -30,38 +30,38 @@ var World = {
 		if (!World.initiallyLoadedData) {
 		    
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 1000000)),
+    		    'latitude': (lat + (Math.random() / 1000000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 1000000)),
+    		    'latitude': (lat + (Math.random() / 1000000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 1000000)),
+    		    'latitude': (lat + (Math.random() / 1000000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 100000)),
+    		    'latitude': (lat + (Math.random() / 100000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 100000)),
+    		    'latitude': (lat + (Math.random() / 100000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 10000)),
+    		    'latitude': (lat + (Math.random() / 10000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
-    		    'longitude': (lon + (Math.random() / 1000)),
-    		    'latitude': (lat + (Math.random() / 1000)),
+    		    'longitude': (lon + (Math.random() / 10000)),
+    		    'latitude': (lat + (Math.random() / 10000)),
     		    'altitude': 100.0
 		    });
 		    World.loadPoisFromJsonData({
