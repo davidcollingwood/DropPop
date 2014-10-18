@@ -139,6 +139,9 @@ angular.module('partials', [])
   return $templateCache.put('/partials/profile.html', [
 '',
 '<ion-view title="{{ profile.getName() | capitalise }}" class="profile">',
+'  <ion-nav-buttons side="left" ng-if="is_me">',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
+'  </ion-nav-buttons>',
 '  <ion-nav-buttons side="right">',
 '    <button ng-class="getFriendClass()" ng-click="toggleFriend()" class="button button-icon"></button>',
 '  </ion-nav-buttons>',
@@ -187,13 +190,6 @@ angular.module('partials', [])
 '</ion-modal-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/terms.html', [
-'',
-'<ion-view title="Terms and Conditions">',
-'  <ion-content></ion-content>',
-'</ion-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/settings.html', [
 '',
 '<ion-view title="Settings">',
@@ -223,12 +219,9 @@ angular.module('partials', [])
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/user.html', [
+  return $templateCache.put('/partials/terms.html', [
 '',
-'<ion-view title="Profile">',
-'  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
-'  </ion-nav-buttons>',
+'<ion-view title="Terms and Conditions">',
 '  <ion-content></ion-content>',
 '</ion-view>',''].join("\n"));
 }]);
