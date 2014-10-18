@@ -1,4 +1,4 @@
-ion-view(title='Favourites')
+ion-view.favourites(title='Favourites')
     ion-nav-buttons(side='left')
         button.button.button-icon.ion-navicon(ng-click='toggleMenu()')
     ion-nav-buttons(side='right')
@@ -6,7 +6,7 @@ ion-view(title='Favourites')
     
     ion-content
         ion-list
-            ion-item.item-icon-right(ng-repeat='article in favourites', ui-sref='app.article')
-                h2 {{ article.title }}
-                p {{ article.author }}
+            ion-item.item-icon-right(ng-repeat='favourite in favourites', ui-sref='app.article({ article_id: getArticleId(favourite) })')
+                h2.title {{ favourite.title }}
+                small.author by {{ favourite.author }}
                 i.icon.ion-ios7-arrow-right

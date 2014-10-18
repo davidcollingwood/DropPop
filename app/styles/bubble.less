@@ -9,6 +9,8 @@
     .scroll-content {
         -webkit-transition: all 0.2s ease-in;
         transition: all 0.2s ease-in;
+        
+        pointer-events: none;
     }
     
     .ion-ios7-close-outline {
@@ -22,7 +24,9 @@
         -webkit-animation: bubble-in-header 1s forwards;
         overflow: hidden;
         
-        > *:not(.right-buttons) {
+        .button.back-button,
+        > *:not(.right-buttons),
+        .right-buttons .ion-ios7-star {
             opacity: 0;
         }
         
@@ -34,7 +38,7 @@
             position: absolute;
             top: 100%;
             left: 50%;
-            margin-left: -8px;
+            margin-left: -8px + 25px;
             
             font-family: "Ionicons";
             font-size: 20px;
@@ -68,7 +72,7 @@
             &:after {
                 -webkit-animation: bubble-done-rotate 1s infinite linear;
                 
-                margin-left: -12px;
+                margin-left: -12px + 25px;
                 font-size: 25px;
                 content: "\f29d";
             }
@@ -89,7 +93,9 @@
     .bar-header {
         -webkit-animation: bubble-out-header 0.5s;
         
-        > *:not(.right-buttons) {
+        .button.back-button,
+        > *:not(.right-buttons),
+        .right-buttons .ion-ios7-star {
             -webkit-transition-delay: 0.3s;
             transition-delay: 0.3s;
         }
@@ -156,14 +162,4 @@
 @-webkit-keyframes bubble-done-rotate {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
-}
-
-@-webkit-keyframes bubble-confirm-fade-in {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-}
-
-@-webkit-keyframes bubble-confirm-fade-out {
-    0% { opacity: 1; }
-    100% { opacity: 0; }
 }

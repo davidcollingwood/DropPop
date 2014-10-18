@@ -12,7 +12,7 @@ ion-view.friends(title='Friends')
     
     ion-content
         .list
-            .item.item-avatar.item-icon-right(ng-repeat='friend in friends track by $index', ui-sref='app.friend({ friend_id: $index })')
+            .item.item-avatar.item-icon-right(ng-repeat='friend in friends track by $index', ui-sref='app.profile({ profile_id: getProfileId(friend) })')
                 img(ng-src='{{ friend.getPicture("small") }}')
                 | {{ friend.getName() | capitalise }}
                 i.icon.ion-ios7-arrow-right

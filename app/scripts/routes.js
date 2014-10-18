@@ -20,12 +20,12 @@ angular.module('droppop')
         		}
     		})
     		
-    		.state('app.profile', {
-        		url: '/profile',
+    		.state('app.user', {
+        		url: '/user',
         		views: {
             		'app': {
-                		templateUrl: '/partials/profile.html',
-                		controller: 'ProfileCtrl'
+                		templateUrl: '/partials/user.html',
+                		controller: 'UserCtrl'
             		}
         		}
     		})
@@ -39,21 +39,27 @@ angular.module('droppop')
                 		resolve: {
                     		user: function(User) {
                         		return User.get();
-                    		}
+                    		},
+                            profiles: function(Profile) {
+                                return Profile.init();
+                            }
                 		}
             		}
         		}
     		})
     		
-    		.state('app.friend', {
-        		url: '/friends/:friend_id',
+    		.state('app.profile', {
+        		url: '/profiles/:profile_id',
         		views: {
             		'app': {
-                		templateUrl: '/partials/friend.html',
-                		controller: 'FriendCtrl',
+                		templateUrl: '/partials/profile.html',
+                		controller: 'ProfileCtrl',
                 		resolve: {
                     		user: function(User) {
                         		return User.get();
+                    		},
+                    		profile: function($stateParams, Profile) {
+                        		return Profile.get($stateParams.profile_id);
                     		}
                 		}
             		}
@@ -61,11 +67,22 @@ angular.module('droppop')
     		})
     		
     		.state('app.article', {
-        		url: '/article',
+        		url: '/articles/:article_id',
         		views: {
             		'app': {
                 		templateUrl: '/partials/article.html',
-                		controller: 'ArticleCtrl'
+                		controller: 'ArticleCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		},
+                    		article: function($stateParams, Article) {
+                        		return Article.get($stateParams.article_id);
+                    		},
+                    		profiles: function(Profile) {
+                        		return Profile.all();
+                    		}
+                		}
             		}
         		}
     		})
@@ -79,6 +96,9 @@ angular.module('droppop')
                 		resolve: {
                 		    user: function(User) {
                     		    return User.get();
+                		    },
+                		    articles: function(Article) {
+                    		    return Article.init();
                 		    }
                 		}
             		}

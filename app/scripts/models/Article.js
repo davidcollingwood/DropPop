@@ -15,9 +15,72 @@ angular.module('droppop.models')
         
     })
     
-    .factory('Article', function($q, $article) {
+    .factory('Article', function($q, $http, $article) {
+        
+        var articles;
         
         var service = {
+            
+            /**
+             * Init service
+             *
+             * @return promise
+             */
+            init: function() {
+                if (angular.isDefined(articles))
+                    return $q.when(true);
+                return service.load();
+            },
+            
+            /**
+             * Get all articles
+             *
+             * @return promise
+             * @resolve array
+             */
+            all: function() {
+                return service.init().then(function() {
+                    return articles;
+                });
+            },
+            
+            /**
+             * Get article by ID
+             *
+             * @param int article_id
+             * @return promise
+             * @resolve article
+             */
+            get: function(article_id) {
+                return service.init().then(function() {
+                    return articles[article_id];
+                });
+            },
+            
+            /**
+             * Get article by config
+             *
+             * @param object config
+             * @return promise
+             * @resolve article
+             */
+            getByConfig: function(config) {
+                return service.init().then(function() {
+                    return service.get(service.getArticleId(config));
+                });
+            },
+            
+            /**
+             * Get article ID for article
+             *
+             * @param article
+             * @return int
+             */
+            getArticleId: function(article) {
+                return articles.findIndex(function(_article) {
+                    return article.title == _article.title;
+                });
+            },
             
             /**
              * Create a new instance of $article
@@ -30,17 +93,25 @@ angular.module('droppop.models')
             },
             
             /**
-             * Generate config for a random article
+             * Add a new instance of $article
              *
-             * @return object
+             * @param object config
              */
-            generate: function() {
-                return {
-                    title: 'Article #' + Math.floor(Math.random() * 10),
-                    content: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-                    description: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    author: 'Lorem Ipsum'
-                };
+            add: function(config) {
+                if (angular.isUndefined(articles))
+                    articles = [];
+                articles.push(service.create(config));
+            },
+            
+            /**
+             * Load articles
+             *
+             * @return promise
+             */
+            load: function() {
+                return $http.get('data/articles.json').success(function(data) {
+                    angular.forEach(data, service.add);
+                });
             }
             
         };

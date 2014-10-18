@@ -1,0 +1,11 @@
+body {
+	transform: scale(0.5);
+}
+
+.ar-test {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+}
