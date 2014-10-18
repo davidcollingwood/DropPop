@@ -203,7 +203,9 @@ angular.module('droppop.models')
                     var promises = [];
                     
                     angular.forEach(response.data, function(config) {
-                        promises.push(service.loadProfile(config));
+                        promises.push(service.loadProfile(config).then(function(config) {
+                            service.add(config);
+                        }));
                     });
                     
                     return $q.all(promises);
@@ -224,7 +226,7 @@ angular.module('droppop.models')
                     config.bubbles_dropped = data.bubbles_dropped;
                     config.count_friends = data.count_friends;
                     
-                    service.add(config);
+                    return config;
                 });
             },
             
@@ -234,33 +236,16 @@ angular.module('droppop.models')
              * @return object
              */
             generateData: function() {
-                return $q.all([
-                    service.generateRecentArticles(),
-                    service.generateFavouriteArticles(),
-                    service.generateBubblesPopped(),
-                    service.generateBubblesDropped(),
-                    service.generateCountFriends()
-                ]).then(function(articles) {
-                    return {
-                        recent_articles: articles[0],
-                        favourite_articles: articles[1],
-                        bubbles_popped: articles[2],
-                        bubbles_dropped: articles[3],
-                        count_friends: articles[4]
-                    };
+                return $q.all({
+                    recent_articles: service.generateArticles(),
+                    favourite_articles: service.generateArticles(),
+                    bubbles_popped: service.generateBubblesPopped(),
+                    bubbles_dropped: service.generateBubblesDropped(),
+                    count_friends: service.generateCountFriends()
                 });
             },
             
-            generateRecentArticles: function() {
-                return $q.all([
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle()
-                ]);
-            },
-            
-            generateFavouriteArticles: function() {
+            generateArticles: function() {
                 return $q.all([
                     service.generateArticle(),
                     service.generateArticle(),

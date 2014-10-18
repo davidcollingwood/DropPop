@@ -10,22 +10,17 @@ angular.module('droppop')
     			templateUrl: '/partials/app.html'
     		})
     		
-    		.state('app.explore', {
-        		url: '/explore',
-        		views: {
-            		'app': {
-                		templateUrl: '/partials/explore.html',
-                		controller: 'ExploreCtrl'
-            		}
-        		}
-    		})
-    		
     		.state('app.user', {
         		url: '/user',
         		views: {
             		'app': {
-                		templateUrl: '/partials/user.html',
-                		controller: 'UserCtrl'
+                		templateUrl: '/partials/profile.html',
+                		controller: 'UserCtrl',
+                		resolve: {
+                    		user: function(User) {
+                        		return User.get();
+                    		}
+                		}
             		}
         		}
     		})
@@ -155,7 +150,7 @@ angular.module('droppop')
     		
     	;
     
-    	$urlRouterProvider.otherwise('/app/explore');
+    	$urlRouterProvider.otherwise('/app/user');
     
     })
 

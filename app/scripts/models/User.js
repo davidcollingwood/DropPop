@@ -8,6 +8,7 @@ angular.module('droppop.models')
             
             config = config || {};
             
+            this.profile = Profile.create(config.profile);
             this.friends = [];
             this.favourites = [];
             
@@ -24,6 +25,15 @@ angular.module('droppop.models')
         };
         
         user.prototype = {
+            
+            /**
+             * Get user's profile
+             *
+             * @return profile
+             */
+            getProfile: function() {
+                return this.profile;
+            },
             
             /**
              * Get friend by ID
@@ -230,8 +240,31 @@ angular.module('droppop.models')
              */
             loadDefault: function() {
                 return $q.all({
+                    profile: service.generateProfile(),
                     friends: service.generateFriends(),
                     favourites: service.generateFavourites()
+                });
+            },
+            
+            /**
+             * Generate profile
+             *
+             * @return promise
+             * @resolve profile
+             */
+            generateProfile: function() {
+                return Profile.loadProfile({
+                    name: {
+                        first: 'test',
+                        last: 'user'
+                    },
+                    gender: 'male',
+                    email: 'example@email.com',
+                    picture: {
+                        thumbnail: 'http://api.randomuser.me/portraits/thumb/men/15.jpg',
+                        medium: 'http://api.randomuser.me/portraits/med/men/15.jpg',
+                        large: 'http://api.randomuser.me/portraits/men/15.jpg'
+                    }
                 });
             },
             
@@ -247,45 +280,7 @@ angular.module('droppop.models')
                     Profile.get(1),
                     Profile.get(2)
                 ]);
-                
-/*
-                var deferred = $q.defer();
-                
-                $q.all([
-                    service.generateRandomUser(),
-                    service.generateRandomUser(),
-                    service.generateRandomUser(),
-                    service.generateRandomUser(),
-                    service.generateRandomUser()
-                ]).then(function(friends) {
-                    deferred.resolve(friends);
-                }).catch(function(err) {
-                    deferred.reject(err);
-                });
-                
-                return deferred.promise;
-*/
             },
-            
-            /**
-             * Generate a random user from api.randomuser.me
-             *
-             * @return promise
-             * @resolve object
-             */
-/*
-            generateRandomUser: function() {
-                var deferred = $q.defer();
-                
-                $http.get('http://api.randomuser.me/').success(function(response) {
-                    deferred.resolve(response.results[0].user);
-                }).catch(function(err) {
-                    deferred.reject(err);
-                });
-                
-                return deferred.promise;
-            },
-*/
             
             /**
              * Generate array of favourite articles
