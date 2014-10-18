@@ -1,4 +1,6 @@
 ion-view.profile(title='{{ profile.getName() | capitalise }}')
+    ion-nav-buttons(side='left', ng-if='is_me')
+        button.button.button-icon.ion-navicon(ng-click='toggleMenu()')
     ion-nav-buttons(side='right')
         button.button.button-icon(ng-class='getFriendClass()', ng-click='toggleFriend()')
     
