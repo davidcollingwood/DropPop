@@ -19,6 +19,9 @@ angular.module('droppop')
                 		resolve: {
                     		user: function(User) {
                         		return User.get();
+                    		},
+                    		articles: function(Article) {
+                        		return Article.init();
                     		}
                 		}
             		}
