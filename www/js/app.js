@@ -58,12 +58,16 @@ angular.module('droppop.controllers')
 ;
 angular.module('droppop.controllers')
 
-    .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, user, article, profiles) {
+    .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, $sounds, user, article, profiles) {
         
         var body = angular.element(document.body);
         
         $scope.article = article;
-        $scope.profiles = profiles;
+        $scope.profiles = [];
+        
+        for (var i = 0; i < Math.ceil(Math.random() * 4); i++) {
+            $scope.profiles.push(profiles[i]);
+        }
         
         $scope.getFavouriteClass = function() {
             if (user.hasFavourited(article))
@@ -107,6 +111,8 @@ angular.module('droppop.controllers')
             $timeout(function() {
                 body.removeClass('bubble-confirm');
                 body.addClass('bubble-done');
+                
+                $sounds.pop.play();
                 
                 $timeout(function() {
                     body.removeClass('bubble-done');
@@ -372,6 +378,8 @@ angular.module('droppop.models')
     .service('$article', function() {
         
         var article = function(config) {
+            
+            config = config || {};
             
             this.title = config.title || '';
             this.content = config.content || '';
@@ -1292,6 +1300,16 @@ angular.module('droppop.services')
         
     })
     
+;
+angular.module('droppop.services')
+
+    .service('$sounds', function() {
+        
+        return {
+            pop: new Howl({ urls: ['sounds/pop.mp3'] })
+        };
+    })
+
 ;
 angular.module('droppop.services')
     

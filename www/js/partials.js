@@ -23,6 +23,24 @@ angular.module('partials', [])
 '</ion-side-menus>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
+  return $templateCache.put('/partials/article.html', [
+'',
+'<ion-view title="Article" class="article">',
+'  <ion-nav-buttons side="right">',
+'    <button ng-class="getFavouriteClass()" ng-click="toggleFavourite()" class="button button-icon"></button>',
+'    <button ng-click="drop()" class="button button-icon ion-ios7-upload-outline"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content>',
+'    <h2 class="title">{{ article.title }}</h2><small class="author">by {{ article.author }}</small>',
+'    <p ng-bind-html="article.content"></p><small class="dropped-by">Dropped By</small>',
+'    <div class="list">',
+'      <div ng-repeat="profile in profiles track by $index" ui-sref="app.profile({ profile_id: $index })" class="item item-avatar item-icon-right"><img ng-src="{{ profile.getPicture(&quot;small&quot;) }}">{{ profile.getName() | capitalise }}<i class="icon ion-ios7-arrow-right"></i></div>',
+'    </div>',
+'  </ion-content>',
+'  <button ng-click="cancelDrop()" class="button button-icon ion-ios7-close-outline"></button>',
+'</ion-view>',''].join("\n"));
+}])
+.run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/article-modal.html', [
 '',
 '<ion-modal-view ng-controller="ArticleModalCtrl">',
@@ -42,24 +60,6 @@ angular.module('partials', [])
 '    </div>',
 '  </ion-content>',
 '</ion-modal-view>',''].join("\n"));
-}])
-.run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/article.html', [
-'',
-'<ion-view title="Article" class="article">',
-'  <ion-nav-buttons side="right">',
-'    <button ng-class="getFavouriteClass()" ng-click="toggleFavourite()" class="button button-icon"></button>',
-'    <button ng-click="drop()" class="button button-icon ion-ios7-upload-outline"></button>',
-'  </ion-nav-buttons>',
-'  <ion-content>',
-'    <h2 class="title">{{ article.title }}</h2><small class="author">by {{ article.author }}</small>',
-'    <p ng-bind-html="article.content"></p><small class="dropped-by">Dropped By</small>',
-'    <div class="list">',
-'      <div ng-repeat="profile in profiles track by $index" ui-sref="app.profile({ profile_id: $index })" class="item item-avatar item-icon-right"><img ng-src="{{ profile.getPicture(&quot;small&quot;) }}">{{ profile.getName() | capitalise }}<i class="icon ion-ios7-arrow-right"></i></div>',
-'    </div>',
-'  </ion-content>',
-'  <button ng-click="cancelDrop()" class="button button-icon ion-ios7-close-outline"></button>',
-'</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/favourites.html', [
