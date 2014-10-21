@@ -1,11 +1,15 @@
 angular.module('droppop.controllers')
 
-    .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, user, article, profiles) {
+    .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, $sounds, user, article, profiles) {
         
         var body = angular.element(document.body);
         
         $scope.article = article;
-        $scope.profiles = profiles;
+        $scope.profiles = [];
+        
+        for (var i = 0; i < Math.ceil(Math.random() * 4); i++) {
+            $scope.profiles.push(profiles[i]);
+        }
         
         $scope.getFavouriteClass = function() {
             if (user.hasFavourited(article))
@@ -49,6 +53,8 @@ angular.module('droppop.controllers')
             $timeout(function() {
                 body.removeClass('bubble-confirm');
                 body.addClass('bubble-done');
+                
+                $sounds.pop.play();
                 
                 $timeout(function() {
                     body.removeClass('bubble-done');
