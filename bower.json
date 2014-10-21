@@ -10,6 +10,7 @@
   "dependencies": {
     "ionic": "1.0.0-beta.13",
     "angular-local-storage": "latest",
-    "momentjs": "latest"
+    "momentjs": "latest",
+    "howler": "latest"
   }
 }

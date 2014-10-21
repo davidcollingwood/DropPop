@@ -4,6 +4,8 @@ angular.module('droppop.models')
         
         var article = function(config) {
             
+            config = config || {};
+            
             this.title = config.title || '';
             this.content = config.content || '';
             this.description = config.description || '';
