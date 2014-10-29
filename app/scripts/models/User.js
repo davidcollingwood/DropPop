@@ -40,7 +40,7 @@ angular.module('droppop.models')
     })
     
     .factory('User', function(localStorageService, $q, $http, $api, $user, Profile, Article) {
-        console.log('User');
+        
         var user;
         
         var service = {
@@ -174,7 +174,6 @@ angular.module('droppop.models')
             }
         };
         
-        console.log('return User');
         return service;
         
     })

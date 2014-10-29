@@ -19,7 +19,7 @@ angular.module('droppop.models')
     })
     
     .factory('Article', function($q, $http, $api, $article) {
-        console.log('Article');
+        
         var articles;
         
         var service = {
@@ -125,7 +125,6 @@ angular.module('droppop.models')
             
         };
         
-        console.log('return Article');
         return service;
         
     })

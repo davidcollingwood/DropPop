@@ -1,6 +1,6 @@
 angular.module('droppop.models')
     
-    .service('$profile', function(localStorageService, Article, Profile) {
+    .service('$profile', function(localStorageService, Article) {
         
         var profile = function(config) {
             
@@ -41,10 +41,13 @@ angular.module('droppop.models')
                 }.bind(this));
             }, this);
             
-            angular.forEach(config.friends, function(profile) {
+            angular.forEach(config.friends, function(config) {
+                this.friends.push(new profile(config));
+/*
                 Profile.get(profile.id).then(function(profile) {
                     this.friends.push(profile);
                 }.bind(this));
+*/
             }, this);
             
         };
@@ -237,7 +240,6 @@ angular.module('droppop.models')
     })
     
     .factory('Profile', function(localStorageService, $q, $api, $profile, Article) {
-        console.log('Profile');
         var profiles;
         
         var service = {
@@ -324,7 +326,7 @@ angular.module('droppop.models')
             },
             
         };
-        console.log('return Profile');
+        
         return service;
         
     })

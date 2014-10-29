@@ -18,11 +18,9 @@ angular.module('droppop')
                 		controller: 'UserCtrl',
                 		resolve: {
                     		user: function(User) {
-                        		console.log('app.user:resolve(user)');
                         		return User.get();
                     		},
                     		articles: function(Article) {
-                        		console.log('app.user:resolve(articles)');
                         		return Article.init();
                     		}
                 		}
@@ -38,11 +36,9 @@ angular.module('droppop')
                 		controller: 'FriendsCtrl',
                 		resolve: {
                     		user: function(User) {
-                        		console.log('friends.resolve(user)');
                         		return User.get();
                     		},
                             profiles: function(Profile) {
-                                console.log('friends.resolve(profiles)');
                                 return Profile.init();
                             }
                 		}
