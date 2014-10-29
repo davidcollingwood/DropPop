@@ -23,23 +23,25 @@ angular.module('partials', [])
 '</ion-side-menus>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/favourites.html', [
+  return $templateCache.put('/partials/article-modal.html', [
 '',
-'<ion-view title="Favourites" class="favourites">',
-'  <ion-nav-buttons side="left">',
-'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
-'  </ion-nav-buttons>',
-'  <ion-nav-buttons side="right">',
-'    <button class="button button-icon ion-ios7-search"></button>',
-'  </ion-nav-buttons>',
-'  <ion-content>',
-'    <ion-list>',
-'      <ion-item ng-repeat="favourite in favourites" ui-sref="app.article({ article_id: favourite.id })" class="item-icon-right">',
-'        <h2 class="title">{{ favourite.title }}</h2><small class="author">by {{ favourite.author }}</small><i class="icon ion-ios7-arrow-right"></i>',
-'      </ion-item>',
-'    </ion-list>',
+'<ion-modal-view ng-controller="ArticleModalCtrl">',
+'  <ion-header-bar class="bar-positive">',
+'    <button ng-click="cancel()" class="button button-clear">Cancel</button>',
+'    <h1 class="title">Create Article</h1>',
+'    <button ng-click="save()" class="button button-clear">Save</button>',
+'  </ion-header-bar>',
+'  <ion-content class="form">',
+'    <div class="list">',
+'      <div class="item item-input">',
+'        <input type="text" placeholder="Title" ng-model="article.title">',
+'      </div>',
+'      <div class="item item-input">',
+'        <textarea placeholder="Content..." ng-model="article.content"></textarea>',
+'      </div>',
+'    </div>',
 '  </ion-content>',
-'</ion-view>',''].join("\n"));
+'</ion-modal-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/article.html', [
@@ -60,25 +62,23 @@ angular.module('partials', [])
 '</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
-  return $templateCache.put('/partials/article-modal.html', [
+  return $templateCache.put('/partials/favourites.html', [
 '',
-'<ion-modal-view ng-controller="ArticleModalCtrl">',
-'  <ion-header-bar class="bar-positive">',
-'    <button ng-click="cancel()" class="button button-clear">Cancel</button>',
-'    <h1 class="title">Create Article</h1>',
-'    <button ng-click="save()" class="button button-clear">Save</button>',
-'  </ion-header-bar>',
-'  <ion-content class="form">',
-'    <div class="list">',
-'      <div class="item item-input">',
-'        <input type="text" placeholder="Title" ng-model="article.title">',
-'      </div>',
-'      <div class="item item-input">',
-'        <textarea placeholder="Content..." ng-model="article.content"></textarea>',
-'      </div>',
-'    </div>',
+'<ion-view title="Favourites" class="favourites">',
+'  <ion-nav-buttons side="left">',
+'    <button ng-click="toggleMenu()" class="button button-icon ion-navicon"></button>',
+'  </ion-nav-buttons>',
+'  <ion-nav-buttons side="right">',
+'    <button class="button button-icon ion-ios7-search"></button>',
+'  </ion-nav-buttons>',
+'  <ion-content>',
+'    <ion-list>',
+'      <ion-item ng-repeat="favourite in favourites" ui-sref="app.article({ article_id: favourite.id })" class="item-icon-right">',
+'        <h2 class="title">{{ favourite.title }}</h2><small class="author">by {{ favourite.author }}</small><i class="icon ion-ios7-arrow-right"></i>',
+'      </ion-item>',
+'    </ion-list>',
 '  </ion-content>',
-'</ion-modal-view>',''].join("\n"));
+'</ion-view>',''].join("\n"));
 }])
 .run(['$templateCache', function($templateCache) {
   return $templateCache.put('/partials/friends.html', [
