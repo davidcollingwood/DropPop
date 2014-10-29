@@ -8,17 +8,8 @@ angular.module('droppop.models')
             
             config = config || {};
             
-            this.profile = Profile.create(config.profile);
-            this.friends = [];
-            this.favourites = [];
-            
-            angular.forEach(config.friends, function(profile) {
-                this.friends.push(Profile.create(profile));
-            }, this);
-            
-            angular.forEach(config.favourites, function(favourite) {
-                this.favourites.push(Article.create(favourite));
-            }, this);
+            this.id = config.id || 0;
+            this.profile = Profile.create(config);
             
             this.save();
             
@@ -36,123 +27,6 @@ angular.module('droppop.models')
             },
             
             /**
-             * Get friend by ID
-             *
-             * @param int friend_id
-             * @return profile
-             */
-            getFriend: function(friend_id) {
-                return this.friends[friend_id];
-            },
-            
-            /**
-             * Get friend ID
-             *
-             * @param profile friend
-             * @return int
-             */
-            getFriendId: function(friend) {
-                return this.friends.findIndex(function(_friend) {
-                    return friend.email == _friend.email;
-                });
-            },
-            
-            /**
-             * Add friend
-             *
-             * @param profile
-             */
-            addFriend: function(profile) {
-                this.friends.push(profile);
-                this.save();
-            },
-            
-            /**
-             * Remove friend
-             *
-             * @param profile
-             */
-            removeFriend: function(profile) {
-                this.friends.splice(this.getFriendId(profile), 1);
-                this.save();
-            },
-            
-            /**
-             * Check whether user has friend
-             *
-             * @param profile
-             * @return bool
-             */
-            hasFriend: function(profile) {
-                return this.friends.some(function(friend) {
-                    return profile.email == friend.email;
-                });
-            },
-            
-            /**
-             * Get articles that the user has marked as favourite
-             *
-             * @return array
-             */
-            getFavourites: function() {
-                return this.favourites;
-            },
-            
-            /**
-             * Get article that the user has marked as favourite by ID
-             *
-             * @param int favourite_id
-             * @return article
-             */
-            getFavourite: function(favourite_id) {
-                return this.favourites[favourite_id];
-            },
-            
-            /**
-             * Get the ID for an article that the user has marked as favourite
-             *
-             * @param article
-             * @return int
-             */
-            getFavouriteId: function(article) {
-                return this.favourites.findIndex(function(favourite) {
-                    return favourite.title == article.title;
-                });
-            },
-            
-            /**
-             * Check if an article has been marked as favourite
-             *
-             * @param article
-             * @return bool
-             */
-            hasFavourited: function(article) {
-                return this.favourites.some(function(favourite) {
-                    return favourite.title == article.title;
-                });
-            },
-            
-            /**
-             * Mark article as favourite
-             *
-             * @param article
-             */
-            addFavourite: function(article) {
-                this.favourites.push(article);
-                this.save();
-            },
-            
-            /**
-             * Unmark article as favourite
-             *
-             * @param article
-             */
-            removeFavourite: function(article) {
-                this.favourites.splice(this.getFavouriteId(article), 1);
-                this.save();
-            },
-            
-            /**
              * Save user instance to local storage
              */
             save: function() {
@@ -165,7 +39,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('User', function(localStorageService, $q, $http, $user, Profile, Article) {
+    .factory('User', function(localStorageService, $q, $http, $api, $user, Profile, Article) {
         
         var user;
         
@@ -209,16 +83,8 @@ angular.module('droppop.models')
              * @return promise
              */
             load: function() {
-                var promise;
-                
-                if (localStorageService.get('user')) {
-                    promise = service.loadLocal();
-                } else {
-                    promise = service.loadDefault();
-                }
-                
-                return promise.then(function(config) {
-                    return service.create(config);
+                return service.loadRemote().then(function(data) {
+                    return service.create(data.user);
                 });
             },
             
@@ -239,11 +105,22 @@ angular.module('droppop.models')
              * @resolve object
              */
             loadDefault: function() {
-                return $q.all({
+                return $api.get('users/me');
+                 $q.all({
                     profile: service.generateProfile(),
                     friends: service.generateFriends(),
                     favourites: service.generateFavourites()
                 });
+            },
+            
+            /**
+             * Load user config from remote resource
+             *
+             * @return promise
+             * @resolve object
+             */
+            loadRemote: function() {
+                return $api.get('users/me');
             },
             
             /**

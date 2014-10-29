@@ -6,9 +6,12 @@ angular.module('droppop.models')
             
             config = config || {};
             
+            this.id = config.id || 0;
+            
             this.name = {};
-            this.name.first = config.name.first || '';
-            this.name.last = config.name.last || '';
+            this.name.first = config.first_name || '';
+            this.name.last = config.last_name || '';
+            this.name.full = config.full_name || '';
             
             this.gender = config.gender || '';
             this.email = config.email || '';
@@ -24,13 +27,27 @@ angular.module('droppop.models')
             
             this.recent_articles = [];
             this.favourite_articles = [];
+            this.friends = [];
             
             angular.forEach(config.recent_articles, function(article) {
-                this.recent_articles.push(Article.create(article));
+                Article.get(article.id).then(function(article) {
+                    this.recent_articles.push(article);
+                }.bind(this));
             }, this);
             
             angular.forEach(config.favourite_articles, function(article) {
-                this.favourite_articles.push(Article.create(article));
+                Article.get(article.id).then(function(article) {
+                    this.favourite_articles.push(article);
+                }.bind(this));
+            }, this);
+            
+            angular.forEach(config.friends, function(config) {
+                this.friends.push(new profile(config));
+/*
+                Profile.get(profile.id).then(function(profile) {
+                    this.friends.push(profile);
+                }.bind(this));
+*/
             }, this);
             
         };
@@ -97,7 +114,124 @@ angular.module('droppop.models')
              */
             getFavouriteArticles: function() {
                 return this.favourite_articles;
-            }
+            },
+            
+            /**
+             * Get friends
+             *
+             * @return array
+             */
+            getFriends: function() {
+                return this.friends;
+            },
+            
+            /**
+             * Get friend by ID
+             *
+             * @param int friend_id
+             * @return profile
+             */
+            getFriend: function(friend_id) {
+                return this.friends[friend_id];
+            },
+            
+            /**
+             * Get friend ID
+             *
+             * @param profile friend
+             * @return int
+             */
+            getFriendId: function(friend) {
+                return this.friends.findIndex(function(_friend) {
+                    return friend.email == _friend.email;
+                });
+            },
+            
+            /**
+             * Add friend
+             *
+             * @param profile
+             */
+            addFriend: function(profile) {
+                this.friends.push(profile);
+                this.save();
+            },
+            
+            /**
+             * Remove friend
+             *
+             * @param profile
+             */
+            removeFriend: function(profile) {
+                this.friends.splice(this.getFriendId(profile), 1);
+                this.save();
+            },
+            
+            /**
+             * Check whether user has friend
+             *
+             * @param profile
+             * @return bool
+             */
+            hasFriend: function(profile) {
+                return this.friends.some(function(friend) {
+                    return profile.email == friend.email;
+                });
+            },
+            
+            /**
+             * Get article that the user has marked as favourite by ID
+             *
+             * @param int favourite_id
+             * @return article
+             */
+            getFavouriteArticle: function(favourite_id) {
+                return this.favourite_articles[favourite_id];
+            },
+            
+            /**
+             * Get the ID for an article that the user has marked as favourite
+             *
+             * @param article
+             * @return int
+             */
+            getFavouriteArticleId: function(article) {
+                return this.favourite_articles.findIndex(function(favourite) {
+                    return favourite.title == article.title;
+                });
+            },
+            
+            /**
+             * Check if an article has been marked as favourite
+             *
+             * @param article
+             * @return bool
+             */
+            hasFavouritedArticle: function(article) {
+                return this.favourite_articles.some(function(favourite) {
+                    return favourite.title == article.title;
+                });
+            },
+            
+            /**
+             * Mark article as favourite
+             *
+             * @param article
+             */
+            addFavouriteArticle: function(article) {
+                this.favourite_articles.push(article);
+                this.save();
+            },
+            
+            /**
+             * Unmark article as favourite
+             *
+             * @param article
+             */
+            removeFavouriteArticle: function(article) {
+                this.favourite_articles.splice(this.getFavouriteId(article), 1);
+                this.save();
+            },
             
         };
         
@@ -105,8 +239,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('Profile', function(localStorageService, $q, $http, $profile, Article) {
-        
+    .factory('Profile', function(localStorageService, $q, $api, $profile, Article) {
         var profiles;
         
         var service = {
@@ -143,32 +276,9 @@ angular.module('droppop.models')
              */
             get: function(profile_id) {
                 return service.init().then(function() {
-                    return profiles[profile_id];
-                });
-            },
-            
-            /**
-             * Get profile by config
-             *
-             * @param object config
-             * @return promise
-             * @resolve profile
-             */
-            getByConfig: function(config) {
-                service.init().then(function() {
-                    return service.get(service.getProfileId(config));
-                });
-            },
-            
-            /**
-             * Get profile ID for profile
-             *
-             * @param profile
-             * @return int
-             */
-            getProfileId: function(profile) {
-                return profiles.findIndex(function(_profile) {
-                    return profile.email == _profile.email;
+                    return profiles.find(function(profile) {
+                        return profile.id == profile_id;
+                    });
                 });
             },
             
@@ -199,76 +309,20 @@ angular.module('droppop.models')
              * @return promise
              */
             load: function() {
-                return $http.get('data/profiles.json').then(function(response) {
-                    var promises = [];
-                    
-                    angular.forEach(response.data, function(config) {
-                        promises.push(service.loadProfile(config).then(function(config) {
-                            service.add(config);
-                        }));
-                    });
-                    
-                    return $q.all(promises);
+                return service.loadRemote().then(function(response) {
+                    angular.forEach(response.users, service.add);
                 });
             },
             
             /**
-             * Load profile from config
+             * Load profiles from remote resource
              *
-             * @param object config
              * @return promise
+             * @resolve array
              */
-            loadProfile: function(config) {
-                return service.generateData().then(function(data) {
-                    config.recent_articles = data.recent_articles;
-                    config.favourite_articles = data.favourite_articles;
-                    config.bubbles_popped = data.bubbles_popped;
-                    config.bubbles_dropped = data.bubbles_dropped;
-                    config.count_friends = data.count_friends;
-                    
-                    return config;
-                });
+            loadRemote: function() {
+                return $api.get('users');
             },
-            
-            /**
-             * Generate articles config
-             *
-             * @return object
-             */
-            generateData: function() {
-                return $q.all({
-                    recent_articles: service.generateArticles(),
-                    favourite_articles: service.generateArticles(),
-                    bubbles_popped: service.generateBubblesPopped(),
-                    bubbles_dropped: service.generateBubblesDropped(),
-                    count_friends: service.generateCountFriends()
-                });
-            },
-            
-            generateArticles: function() {
-                return $q.all([
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle()
-                ]);
-            },
-            
-            generateArticle: function() {
-                return Article.get(Math.round(Math.random() * 10));
-            },
-            
-            generateBubblesPopped: function() {
-                return $q.when(Math.floor(Math.random() * 500 + 100));
-            },
-            
-            generateBubblesDropped: function() {
-                return $q.when(Math.floor(Math.random() * 100 + 50));
-            },
-            
-            generateCountFriends: function() {
-                return $q.when(Math.floor(Math.random() * 50));
-            }
             
         };
         

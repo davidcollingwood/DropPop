@@ -16,7 +16,7 @@ angular.module('droppop.filters', []);
 angular.module('droppop.models', []);
 
 angular.module('droppop')
-
+    
     .constant('WIKITUDE_WORLD', 'www/world/index.html')
     
     .constant('$ionicLoadingConfig', {

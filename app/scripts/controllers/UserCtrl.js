@@ -9,10 +9,6 @@ angular.module('droppop.controllers')
             return '';
         };
         
-        $scope.getArticleId = function(article) {
-            return Article.getArticleId(article);
-        };
-        
     })
 
 ;

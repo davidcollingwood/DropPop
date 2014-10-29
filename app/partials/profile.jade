@@ -23,7 +23,7 @@ ion-view.profile(title='{{ profile.getName() | capitalise }}')
             .item-divider
                 i.icon.ion-ios7-clock-outline
                 | Recently Read
-            .item.item-icon-right(ng-repeat='article in profile.getRecentArticles()', ui-sref='app.article({ article_id: getArticleId(article) })')
+            .item.item-icon-right(ng-repeat='article in profile.getRecentArticles()', ui-sref='app.article({ article_id: article.id })')
                 h2.title {{ article.title }}
                 small.author by {{ article.author }}
                 i.icon.ion-ios7-arrow-right
@@ -31,7 +31,7 @@ ion-view.profile(title='{{ profile.getName() | capitalise }}')
             .item-divider(ng-if='!is_me')
                 i.icon.ion-ios7-star-outline
                 | Favourite Articles
-            .item.item-icon-right(ng-if='!is_me', ng-repeat='article in profile.getFavouriteArticles()', ui-sref='app.article({ article_id: getArticleId(article) })')
+            .item.item-icon-right(ng-if='!is_me', ng-repeat='article in profile.getFavouriteArticles()', ui-sref='app.article({ article_id: article.id })')
                 h2.title {{ article.title }}
                 small.author by {{ article.author }}
                 i.icon.ion-ios7-arrow-right

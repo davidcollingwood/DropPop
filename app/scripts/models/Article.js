@@ -6,6 +6,7 @@ angular.module('droppop.models')
             
             config = config || {};
             
+            this.id = config.id || 0;
             this.title = config.title || '';
             this.content = config.content || '';
             this.description = config.description || '';
@@ -17,7 +18,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('Article', function($q, $http, $article) {
+    .factory('Article', function($q, $http, $api, $article) {
         
         var articles;
         
@@ -55,7 +56,9 @@ angular.module('droppop.models')
              */
             get: function(article_id) {
                 return service.init().then(function() {
-                    return articles[article_id];
+                    return articles.find(function(article) {
+                        return article.id == article_id;
+                    });
                 });
             },
             
@@ -111,9 +114,13 @@ angular.module('droppop.models')
              * @return promise
              */
             load: function() {
-                return $http.get('data/articles.json').success(function(data) {
-                    angular.forEach(data, service.add);
+                return service.loadRemote().then(function(data) {
+                    angular.forEach(data.articles, service.add);
                 });
+            },
+            
+            loadRemote: function() {
+                return $api.get('articles');
             }
             
         };

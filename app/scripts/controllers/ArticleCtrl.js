@@ -3,6 +3,7 @@ angular.module('droppop.controllers')
     .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, $sounds, user, article, profiles) {
         
         var body = angular.element(document.body);
+        var user_profile = user.getProfile();
         
         $scope.article = article;
         $scope.profiles = [];
@@ -12,20 +13,20 @@ angular.module('droppop.controllers')
         }
         
         $scope.getFavouriteClass = function() {
-            if (user.hasFavourited(article))
+            if (user_profile.hasFavouritedArticle(article))
                 return 'ion-ios7-star';
             return 'ion-ios7-star-outline';
         };
         
         $scope.toggleFavourite = function() {
-            if (user.hasFavourited($scope.article))
+            if (user_profile.hasFavouritedArticle($scope.article))
                 $scope.removeFavourite();
             else
                 $scope.addFavourite();
         };
         
         $scope.addFavourite = function() {
-            user.addFavourite($scope.article);
+            user_profile.addFavouriteArticle($scope.article);
         };
         
         $scope.removeFavourite = function() {
@@ -33,7 +34,7 @@ angular.module('droppop.controllers')
                 destructiveText: 'Remove Favourite',
                 cancelText: 'Cancel',
                 destructiveButtonClicked: function() {
-                    user.removeFavourite($scope.article);
+                    user.removeFavouriteArticle($scope.article);
                     return true;
                 }
             });
