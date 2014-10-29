@@ -8,11 +8,9 @@ angular.module('droppop.controllers')
         $scope.article = article;
         $scope.profiles = [];
         
-/*
         for (var i = 0; i < Math.ceil(Math.random() * 4); i++) {
             $scope.profiles.push(profiles[i]);
         }
-*/
         
         $scope.getFavouriteClass = function() {
             if (user_profile.hasFavouritedArticle(article))

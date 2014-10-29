@@ -276,7 +276,6 @@ angular.module('droppop.models')
              */
             get: function(profile_id) {
                 return service.init().then(function() {
-                    console.log(profiles);
                     return profiles.find(function(profile) {
                         return profile.id == profile_id;
                     });
