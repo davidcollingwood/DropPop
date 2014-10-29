@@ -16,7 +16,7 @@ angular.module('droppop.filters', []);
 angular.module('droppop.models', []);
 
 angular.module('droppop')
-
+    
     .constant('WIKITUDE_WORLD', 'www/world/index.html')
     
     .constant('$ionicLoadingConfig', {
@@ -61,6 +61,7 @@ angular.module('droppop.controllers')
     .controller('ArticleCtrl', function($scope, $timeout, $ionicSideMenuDelegate, $ionicActionSheet, $sounds, user, article, profiles) {
         
         var body = angular.element(document.body);
+        var user_profile = user.getProfile();
         
         $scope.article = article;
         $scope.profiles = [];
@@ -70,20 +71,20 @@ angular.module('droppop.controllers')
         }
         
         $scope.getFavouriteClass = function() {
-            if (user.hasFavourited(article))
+            if (user_profile.hasFavouritedArticle(article))
                 return 'ion-ios7-star';
             return 'ion-ios7-star-outline';
         };
         
         $scope.toggleFavourite = function() {
-            if (user.hasFavourited($scope.article))
+            if (user_profile.hasFavouritedArticle($scope.article))
                 $scope.removeFavourite();
             else
                 $scope.addFavourite();
         };
         
         $scope.addFavourite = function() {
-            user.addFavourite($scope.article);
+            user_profile.addFavouriteArticle($scope.article);
         };
         
         $scope.removeFavourite = function() {
@@ -91,7 +92,7 @@ angular.module('droppop.controllers')
                 destructiveText: 'Remove Favourite',
                 cancelText: 'Cancel',
                 destructiveButtonClicked: function() {
-                    user.removeFavourite($scope.article);
+                    user.removeFavouriteArticle($scope.article);
                     return true;
                 }
             });
@@ -154,11 +155,7 @@ angular.module('droppop.controllers')
 
     .controller('FavouritesCtrl', function($scope, user, Article) {
         
-        $scope.favourites = user.getFavourites();
-        
-        $scope.getArticleId = function(favourite) {
-            return Article.getArticleId(favourite);
-        };
+        $scope.favourites = user.getProfile().getFavouriteArticles();
         
     })
 
@@ -169,11 +166,7 @@ angular.module('droppop.controllers')
         
         $scope.is_searching = false;
         $scope.friends_filter = '';
-        $scope.friends = user.friends;
-        
-        $scope.getProfileId = function(friend) {
-            return Profile.getProfileId(friend);
-        };
+        $scope.friends = user.getProfile().getFriends();
         
         $scope.search = function() {
             $ionicNavBarDelegate.showBar(false);
@@ -192,16 +185,17 @@ angular.module('droppop.controllers')
 
     .controller('ProfileCtrl', function($scope, $ionicActionSheet, user, profile, Article) {
         
+        var user_profile = user.getProfile();
         $scope.profile = profile;
         
         $scope.getFriendClass = function() {
-            if (user.hasFriend($scope.profile))
+            if (user_profile.hasFriend($scope.profile))
                 return 'ion-ios7-personadd';
             return 'ion-ios7-personadd-outline';
         };
         
         $scope.toggleFriend = function() {
-            if (user.hasFriend($scope.profile))
+            if (user_profile.hasFriend($scope.profile))
                 $scope.removeFriend();
             else
                 $scope.addFriend();
@@ -212,18 +206,14 @@ angular.module('droppop.controllers')
                 destructiveText: 'Remove Friend',
                 cancelText: 'Cancel',
                 destructiveButtonClicked: function() {
-                    user.removeFriend($scope.profile);
+                    user_profile.removeFriend($scope.profile);
                     return true;
                 }
             });
         };
         
         $scope.addFriend = function() {
-            user.addFriend($scope.profile);
-        };
-        
-        $scope.getArticleId = function(article) {
-            return Article.getArticleId(article);
+            user_profile.addFriend($scope.profile);
         };
         
     })
@@ -316,10 +306,6 @@ angular.module('droppop.controllers')
             return '';
         };
         
-        $scope.getArticleId = function(article) {
-            return Article.getArticleId(article);
-        };
-        
     })
 
 ;
@@ -381,6 +367,7 @@ angular.module('droppop.models')
             
             config = config || {};
             
+            this.id = config.id || 0;
             this.title = config.title || '';
             this.content = config.content || '';
             this.description = config.description || '';
@@ -392,7 +379,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('Article', function($q, $http, $article) {
+    .factory('Article', function($q, $http, $api, $article) {
         
         var articles;
         
@@ -430,7 +417,9 @@ angular.module('droppop.models')
              */
             get: function(article_id) {
                 return service.init().then(function() {
-                    return articles[article_id];
+                    return articles.find(function(article) {
+                        return article.id == article_id;
+                    });
                 });
             },
             
@@ -486,9 +475,13 @@ angular.module('droppop.models')
              * @return promise
              */
             load: function() {
-                return $http.get('data/articles.json').success(function(data) {
-                    angular.forEach(data, service.add);
+                return service.loadRemote().then(function(data) {
+                    angular.forEach(data.articles, service.add);
                 });
+            },
+            
+            loadRemote: function() {
+                return $api.get('articles');
             }
             
         };
@@ -506,9 +499,12 @@ angular.module('droppop.models')
             
             config = config || {};
             
+            this.id = config.id || 0;
+            
             this.name = {};
-            this.name.first = config.name.first || '';
-            this.name.last = config.name.last || '';
+            this.name.first = config.first_name || '';
+            this.name.last = config.last_name || '';
+            this.name.full = config.full_name || '';
             
             this.gender = config.gender || '';
             this.email = config.email || '';
@@ -524,13 +520,27 @@ angular.module('droppop.models')
             
             this.recent_articles = [];
             this.favourite_articles = [];
+            this.friends = [];
             
             angular.forEach(config.recent_articles, function(article) {
-                this.recent_articles.push(Article.create(article));
+                Article.get(article.id).then(function(article) {
+                    this.recent_articles.push(article);
+                }.bind(this));
             }, this);
             
             angular.forEach(config.favourite_articles, function(article) {
-                this.favourite_articles.push(Article.create(article));
+                Article.get(article.id).then(function(article) {
+                    this.favourite_articles.push(article);
+                }.bind(this));
+            }, this);
+            
+            angular.forEach(config.friends, function(config) {
+                this.friends.push(new profile(config));
+/*
+                Profile.get(profile.id).then(function(profile) {
+                    this.friends.push(profile);
+                }.bind(this));
+*/
             }, this);
             
         };
@@ -597,221 +607,15 @@ angular.module('droppop.models')
              */
             getFavouriteArticles: function() {
                 return this.favourite_articles;
-            }
-            
-        };
-        
-        return profile;
-        
-    })
-    
-    .factory('Profile', function(localStorageService, $q, $http, $profile, Article) {
-        
-        var profiles;
-        
-        var service = {
-            
-            /**
-             * Init service
-             *
-             * @return promise
-             */
-            init: function() {
-                if (angular.isDefined(profiles))
-                    return $q.when(true);
-                return service.load();
             },
             
             /**
-             * Get all profiles
+             * Get friends
              *
-             * @return promise
-             * @resolve array
+             * @return array
              */
-            all: function() {
-                return service.init().then(function() {
-                    return profiles;
-                });
-            },
-            
-            /**
-             * Get profile by ID
-             *
-             * @param profile_id
-             * @return promise
-             * @resolve profile
-             */
-            get: function(profile_id) {
-                return service.init().then(function() {
-                    return profiles[profile_id];
-                });
-            },
-            
-            /**
-             * Get profile by config
-             *
-             * @param object config
-             * @return promise
-             * @resolve profile
-             */
-            getByConfig: function(config) {
-                service.init().then(function() {
-                    return service.get(service.getProfileId(config));
-                });
-            },
-            
-            /**
-             * Get profile ID for profile
-             *
-             * @param profile
-             * @return int
-             */
-            getProfileId: function(profile) {
-                return profiles.findIndex(function(_profile) {
-                    return profile.email == _profile.email;
-                });
-            },
-            
-            /**
-             * Create a new instance of $profile
-             *
-             * @param object config
-             * @return profile
-             */
-            create: function(config) {
-                return new $profile(config);
-            },
-            
-            /**
-             * Add a new instance of $profile
-             *
-             * @param object config
-             */
-            add: function(config) {
-                if (angular.isUndefined(profiles))
-                    profiles = [];
-                profiles.push(service.create(config));
-            },
-            
-            /**
-             * Load profiles
-             *
-             * @return promise
-             */
-            load: function() {
-                return $http.get('data/profiles.json').then(function(response) {
-                    var promises = [];
-                    
-                    angular.forEach(response.data, function(config) {
-                        promises.push(service.loadProfile(config).then(function(config) {
-                            service.add(config);
-                        }));
-                    });
-                    
-                    return $q.all(promises);
-                });
-            },
-            
-            /**
-             * Load profile from config
-             *
-             * @param object config
-             * @return promise
-             */
-            loadProfile: function(config) {
-                return service.generateData().then(function(data) {
-                    config.recent_articles = data.recent_articles;
-                    config.favourite_articles = data.favourite_articles;
-                    config.bubbles_popped = data.bubbles_popped;
-                    config.bubbles_dropped = data.bubbles_dropped;
-                    config.count_friends = data.count_friends;
-                    
-                    return config;
-                });
-            },
-            
-            /**
-             * Generate articles config
-             *
-             * @return object
-             */
-            generateData: function() {
-                return $q.all({
-                    recent_articles: service.generateArticles(),
-                    favourite_articles: service.generateArticles(),
-                    bubbles_popped: service.generateBubblesPopped(),
-                    bubbles_dropped: service.generateBubblesDropped(),
-                    count_friends: service.generateCountFriends()
-                });
-            },
-            
-            generateArticles: function() {
-                return $q.all([
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle(),
-                    service.generateArticle()
-                ]);
-            },
-            
-            generateArticle: function() {
-                return Article.get(Math.round(Math.random() * 10));
-            },
-            
-            generateBubblesPopped: function() {
-                return $q.when(Math.floor(Math.random() * 500 + 100));
-            },
-            
-            generateBubblesDropped: function() {
-                return $q.when(Math.floor(Math.random() * 100 + 50));
-            },
-            
-            generateCountFriends: function() {
-                return $q.when(Math.floor(Math.random() * 50));
-            }
-            
-        };
-        
-        return service;
-        
-    })
-
-;
-angular.module('droppop.models')
-    
-    .service('$user', function(localStorageService, Profile, Article) {
-        
-        var favourites = [];
-        
-        var user = function(config) {
-            
-            config = config || {};
-            
-            this.profile = Profile.create(config.profile);
-            this.friends = [];
-            this.favourites = [];
-            
-            angular.forEach(config.friends, function(profile) {
-                this.friends.push(Profile.create(profile));
-            }, this);
-            
-            angular.forEach(config.favourites, function(favourite) {
-                this.favourites.push(Article.create(favourite));
-            }, this);
-            
-            this.save();
-            
-        };
-        
-        user.prototype = {
-            
-            /**
-             * Get user's profile
-             *
-             * @return profile
-             */
-            getProfile: function() {
-                return this.profile;
+            getFriends: function() {
+                return this.friends;
             },
             
             /**
@@ -869,22 +673,13 @@ angular.module('droppop.models')
             },
             
             /**
-             * Get articles that the user has marked as favourite
-             *
-             * @return array
-             */
-            getFavourites: function() {
-                return this.favourites;
-            },
-            
-            /**
              * Get article that the user has marked as favourite by ID
              *
              * @param int favourite_id
              * @return article
              */
-            getFavourite: function(favourite_id) {
-                return this.favourites[favourite_id];
+            getFavouriteArticle: function(favourite_id) {
+                return this.favourite_articles[favourite_id];
             },
             
             /**
@@ -893,8 +688,8 @@ angular.module('droppop.models')
              * @param article
              * @return int
              */
-            getFavouriteId: function(article) {
-                return this.favourites.findIndex(function(favourite) {
+            getFavouriteArticleId: function(article) {
+                return this.favourite_articles.findIndex(function(favourite) {
                     return favourite.title == article.title;
                 });
             },
@@ -905,8 +700,8 @@ angular.module('droppop.models')
              * @param article
              * @return bool
              */
-            hasFavourited: function(article) {
-                return this.favourites.some(function(favourite) {
+            hasFavouritedArticle: function(article) {
+                return this.favourite_articles.some(function(favourite) {
                     return favourite.title == article.title;
                 });
             },
@@ -916,8 +711,8 @@ angular.module('droppop.models')
              *
              * @param article
              */
-            addFavourite: function(article) {
-                this.favourites.push(article);
+            addFavouriteArticle: function(article) {
+                this.favourite_articles.push(article);
                 this.save();
             },
             
@@ -926,9 +721,135 @@ angular.module('droppop.models')
              *
              * @param article
              */
-            removeFavourite: function(article) {
-                this.favourites.splice(this.getFavouriteId(article), 1);
+            removeFavouriteArticle: function(article) {
+                this.favourite_articles.splice(this.getFavouriteId(article), 1);
                 this.save();
+            },
+            
+        };
+        
+        return profile;
+        
+    })
+    
+    .factory('Profile', function(localStorageService, $q, $api, $profile, Article) {
+        var profiles;
+        
+        var service = {
+            
+            /**
+             * Init service
+             *
+             * @return promise
+             */
+            init: function() {
+                if (angular.isDefined(profiles))
+                    return $q.when(true);
+                return service.load();
+            },
+            
+            /**
+             * Get all profiles
+             *
+             * @return promise
+             * @resolve array
+             */
+            all: function() {
+                return service.init().then(function() {
+                    return profiles;
+                });
+            },
+            
+            /**
+             * Get profile by ID
+             *
+             * @param profile_id
+             * @return promise
+             * @resolve profile
+             */
+            get: function(profile_id) {
+                return service.init().then(function() {
+                    return profiles.find(function(profile) {
+                        return profile.id == profile_id;
+                    });
+                });
+            },
+            
+            /**
+             * Create a new instance of $profile
+             *
+             * @param object config
+             * @return profile
+             */
+            create: function(config) {
+                return new $profile(config);
+            },
+            
+            /**
+             * Add a new instance of $profile
+             *
+             * @param object config
+             */
+            add: function(config) {
+                if (angular.isUndefined(profiles))
+                    profiles = [];
+                profiles.push(service.create(config));
+            },
+            
+            /**
+             * Load profiles
+             *
+             * @return promise
+             */
+            load: function() {
+                return service.loadRemote().then(function(response) {
+                    angular.forEach(response.users, service.add);
+                });
+            },
+            
+            /**
+             * Load profiles from remote resource
+             *
+             * @return promise
+             * @resolve array
+             */
+            loadRemote: function() {
+                return $api.get('users');
+            },
+            
+        };
+        
+        return service;
+        
+    })
+
+;
+angular.module('droppop.models')
+    
+    .service('$user', function(localStorageService, Profile, Article) {
+        
+        var favourites = [];
+        
+        var user = function(config) {
+            
+            config = config || {};
+            
+            this.id = config.id || 0;
+            this.profile = Profile.create(config);
+            
+            this.save();
+            
+        };
+        
+        user.prototype = {
+            
+            /**
+             * Get user's profile
+             *
+             * @return profile
+             */
+            getProfile: function() {
+                return this.profile;
             },
             
             /**
@@ -944,7 +865,7 @@ angular.module('droppop.models')
         
     })
     
-    .factory('User', function(localStorageService, $q, $http, $user, Profile, Article) {
+    .factory('User', function(localStorageService, $q, $http, $api, $user, Profile, Article) {
         
         var user;
         
@@ -988,16 +909,8 @@ angular.module('droppop.models')
              * @return promise
              */
             load: function() {
-                var promise;
-                
-                if (localStorageService.get('user')) {
-                    promise = service.loadLocal();
-                } else {
-                    promise = service.loadDefault();
-                }
-                
-                return promise.then(function(config) {
-                    return service.create(config);
+                return service.loadRemote().then(function(data) {
+                    return service.create(data.user);
                 });
             },
             
@@ -1018,11 +931,22 @@ angular.module('droppop.models')
              * @resolve object
              */
             loadDefault: function() {
-                return $q.all({
+                return $api.get('users/me');
+                 $q.all({
                     profile: service.generateProfile(),
                     friends: service.generateFriends(),
                     favourites: service.generateFavourites()
                 });
+            },
+            
+            /**
+             * Load user config from remote resource
+             *
+             * @return promise
+             * @resolve object
+             */
+            loadRemote: function() {
+                return $api.get('users/me');
             },
             
             /**
@@ -1105,6 +1029,33 @@ if (!Array.prototype.findIndex) {
       }
     }
     return -1;
+  };
+}
+
+/**
+ * Array.prototype.find()
+ */
+
+if (!Array.prototype.find) {
+  Array.prototype.find = function(predicate) {
+    if (this == null) {
+      throw new TypeError('Array.prototype.find called on null or undefined');
+    }
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+    var list = Object(this);
+    var length = list.length >>> 0;
+    var thisArg = arguments[1];
+    var value;
+
+    for (var i = 0; i < length; i++) {
+      value = list[i];
+      if (predicate.call(thisArg, value, i, list)) {
+        return value;
+      }
+    }
+    return undefined;
   };
 }
 ;angular.module('droppop')
@@ -1268,6 +1219,31 @@ if (!Array.prototype.findIndex) {
 
 ;
 
+angular.module('droppop.services')
+    
+    // .constant('API_URL', 'http://drop-pop-api.pagodabox.com/api/')
+    .constant('API_URL', 'http://droppop.api/api/')
+    
+    .service('$api', function($http, API_URL) {
+        
+        return {
+            
+            get: function(url) {
+                return $http.get(API_URL + url).then(function(response) {
+                    return response.data.data;
+                });
+            },
+            
+            post: function(url, data) {
+                return $http.post(API_URL + url, data).then(function(response) {
+                    return response.data.data;
+                });
+            }
+            
+        };
+    })
+
+;
 angular.module('droppop.services')
 
     .service('messages', function() {

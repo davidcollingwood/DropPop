@@ -71,7 +71,7 @@
   -webkit-animation: bubble-in-header 1s forwards;
   overflow: hidden;
 }
-.platform-webview .bubble-in .bar-header {
+.platform-webview.bubble-in .bar-header {
   -webkit-animation-name: bubble-in-header-webview;
 }
 .bubble-in .bar-header .title,
@@ -93,7 +93,7 @@
   line-height: 40px;
   content: "\f122";
 }
-.platform-webview .bubble-in .bar-header .right-buttons:after {
+.platform-webview.bubble-in .bar-header .right-buttons:after {
   margin-left: 20px;
 }
 .bubble-in .scroll-content {
@@ -118,7 +118,7 @@
   font-size: 25px;
   content: "\f29d";
 }
-.platform-webview .bubble-confirm .bar-header .right-buttons:after {
+.platform-webview.bubble-confirm .bar-header .right-buttons:after {
   margin-left: 15px;
 }
 .bubble-done .bar-header .right-buttons {
@@ -128,7 +128,7 @@
 .bubble-out .bar-header {
   -webkit-animation: bubble-out-header 0.5s;
 }
-.platform-webview .bubble-out .bar-header {
+.platform-webview.bubble-out .bar-header {
   -webkit-animation-name: bubble-out-header-webview;
 }
 .bubble-out .bar-header .title,
