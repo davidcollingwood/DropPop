@@ -1,14 +1,10 @@
 angular.module('droppop.controllers')
 
     .controller('FriendsCtrl', function($scope, $ionicNavBarDelegate, user, Profile) {
-        
+        console.log('FriendsCtrl');
         $scope.is_searching = false;
         $scope.friends_filter = '';
-        $scope.friends = user.friends;
-        
-        $scope.getProfileId = function(friend) {
-            return Profile.getProfileId(friend);
-        };
+        $scope.friends = user.getProfile().getFriends();
         
         $scope.search = function() {
             $ionicNavBarDelegate.showBar(false);

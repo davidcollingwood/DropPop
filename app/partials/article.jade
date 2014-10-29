@@ -10,7 +10,7 @@ ion-view.article(title='Article')
         
         small.dropped-by Dropped By
         .list
-            .item.item-avatar.item-icon-right(ng-repeat='profile in profiles track by $index', ui-sref='app.profile({ profile_id: $index })')
+            .item.item-avatar.item-icon-right(ng-repeat='profile in profiles', ui-sref='app.profile({ profile_id: profile.id })')
                 img(ng-src='{{ profile.getPicture("small") }}')
                 | {{ profile.getName() | capitalise }}
                 i.icon.ion-ios7-arrow-right
