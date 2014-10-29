@@ -1221,8 +1221,8 @@ if (!Array.prototype.find) {
 
 angular.module('droppop.services')
     
-    // .constant('API_URL', 'http://drop-pop-api.pagodabox.com/api/')
-    .constant('API_URL', 'http://droppop.api/api/')
+    .constant('API_URL', 'http://drop-pop-api.pagodabox.com/api/')
+    // .constant('API_URL', 'http://droppop.api/api/')
     
     .service('$api', function($http, API_URL) {
         
